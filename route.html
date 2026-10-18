@@ -602,8 +602,8 @@ const toiletPhotos = {
    const photoHTML = photos.map((photo, index) => {
   let toiletInfo = "";
 
-  // 9号館3階：男子・女子を別々に表示
   if (start === "9-3") {
+    // 9号館3階は男女を別々に表示
     if (photo.includes("男子トイレ")) {
       toiletInfo = `
         <h3>🚹 男子トイレ</h3>
@@ -617,16 +617,28 @@ const toiletPhotos = {
     }
   } else {
     // それ以外の場所
-    if (index === 0 && (toilet.male || toilet.female)) {
-      toiletInfo = `
-        <h3>🚹 男子トイレ・🚺 女子トイレ</h3>
-        ${toilet.maleLocation
-          ? `<p>🚹 男子トイレ：${toilet.maleLocation}</p>`
-          : ""}
-        ${toilet.femaleLocation
-          ? `<p>🚺 女子トイレ：${toilet.femaleLocation}</p>`
-          : ""}
-      `;
+    if (index === 0) {
+      if (toilet.male && toilet.female) {
+        toiletInfo = `
+          <h3>🚹 男子トイレ・🚺 女子トイレ</h3>
+          <p>${toilet.location || toilet.maleLocation || ""}</p>
+        `;
+      } else if (toilet.male) {
+        toiletInfo = `
+          <h3>🚹 男子トイレ</h3>
+          <p>${toilet.maleLocation || toilet.location || ""}</p>
+        `;
+      } else if (toilet.female) {
+        toiletInfo = `
+          <h3>🚺 女子トイレ</h3>
+          <p>${toilet.femaleLocation || toilet.location || ""}</p>
+        `;
+      } else if (toilet.multipurpose && !toilet.male && !toilet.female) {
+        toiletInfo = `
+          <h3>♿ 多目的トイレ</h3>
+          <p>${toilet.multipurposeLocation || toilet.location || ""}</p>
+        `;
+      }
     }
 
     if (index === 1 && toilet.multipurpose) {
