@@ -487,12 +487,10 @@ function showRoute() {
 
     if (startFloor !== destFloor) {
   if (isBarrierFree) {
-    route.push(`
-      エレベーターへ向かいます
-      <img src="./${startBuilding}号館エレベーター.jpeg"
-           alt="エレベーター"
-           style="width:100%; max-width:400px; border-radius:8px;">
-    `);
+  route.push("エレベーターまで進みます");
+} else {
+  route.push("階段またはエレベーターへ向かいます");
+}
     route.push(`
       エレベーターで${destFloor}へ移動します
       <img src="./${destBuilding}号館エレベーター.jpeg"
