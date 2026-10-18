@@ -472,46 +472,45 @@ function showRoute() {
 
     let route = [];
 
-  if (startBuilding !== destBuilding) {
-    route.push(`${startBuilding}号館${startFloor}から入口へ向かいます`);
-    route.push(`${startBuilding}号館の入口から出ます`);
-    route.push(`${destBuilding}号館へ移動します`);
-    route.push(`${destBuilding}号館の入口から入ります`);
-    route.push(
-      isBarrierFree
-        ? `エレベーターで${destFloor}へ移動します`
-        : `階段またはエレベーターで${destFloor}へ移動します`
-    );
-  } else {
-    route.push(`${startBuilding}号館${startFloor}の現在地から出発します`);
+if (startBuilding !== destBuilding) {
+  route.push(`${startBuilding}号館${startFloor}から入口へ向かいます`);
+  route.push(`${startBuilding}号館の入口から出ます`);
+  route.push(`${destBuilding}号館へ移動します`);
+  route.push(`${destBuilding}号館の入口から入ります`);
 
-    if (startFloor !== destFloor) {
-  if (isBarrierFree) {
-  route.push("エレベーターまで進みます");
+  if (isBarrierFree) {
+    route.push("エレベーターまで進みます");
+    route.push(`
+      エレベーターで${destFloor}へ移動します
+      <img src="./${destBuilding}号館エレベーター.jpeg"
+           alt="エレベーター"
+           style="width:100%; max-width:400px; border-radius:8px;">
+    `);
+  } else {
+    route.push(`階段またはエレベーターで${destFloor}へ移動します`);
+  }
+
 } else {
-  route.push("階段またはエレベーターへ向かいます");
-}
-    route.push(`
-      エレベーターで${destFloor}へ移動します
-      <img src="./${destBuilding}号館エレベーター.jpeg"
-           alt="エレベーター"
-           style="width:100%; max-width:400px; border-radius:8px;">
-    `);
-  } else {
-    route.push("階段またはエレベーターへ向かいます");
-    route.push(`
-  エレベーターで${destFloor}へ移動します
-  <img src="./${destBuilding}号館エレベーター.jpeg"
-       alt="エレベーター"
-       style="width:100%; max-width:400px; border-radius:8px;">
-`);
-  }
+  route.push(`${startBuilding}号館${startFloor}の現在地から出発します`);
+
+  if (startFloor !== destFloor) {
+    if (isBarrierFree) {
+      route.push("エレベーターまで進みます");
+      route.push(`
+        エレベーターで${destFloor}へ移動します
+        <img src="./${destBuilding}号館エレベーター.jpeg"
+             alt="エレベーター"
+             style="width:100%; max-width:400px; border-radius:8px;">
+      `);
+    } else {
+      route.push(`階段またはエレベーターで${destFloor}へ移動します`);
+    }
+  }
+
+  route.push("目的の階の廊下を進みます");
 }
 
-    route.push("目的の階の廊下を進みます");
-  }
-
-  route.push("目的地の企画・教室に到着です！");
+route.push("目的地の企画・教室に到着です！");
 
   const toiletKey = getToiletKey(start);
   const toilet = toilets[toiletKey];
