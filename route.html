@@ -499,7 +499,12 @@ function showRoute() {
     `);
   } else {
     route.push("階段またはエレベーターへ向かいます");
-    route.push(`目的の${destFloor}へ移動します`);
+    route.push(`
+  エレベーターで${destFloor}へ移動します
+  <img src="./${destBuilding}号館エレベーター.jpeg"
+       alt="エレベーター"
+       style="width:100%; max-width:400px; border-radius:8px;">
+`);
   }
 }
 
