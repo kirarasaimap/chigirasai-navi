@@ -226,39 +226,39 @@
       <option value="9-1">9号館入口</option>
       <option value="9-1">受付</option>
       <option value="9-1">インフォメーション</option>
-      <option value="9-b1">出張千輝祭ラジオ</option>
-      <option value="9-b1">千輝祭ミュージックフェス</option>
-      <option value="9-b1">学部対抗クイズ</option>
-      <option value="9-b1">世代を超える！イントロドン</option>
-      <option value="9-b1">ビンゴ大会</option>
+      <option value="901">出張千輝祭ラジオ</option>
+      <option value="901">千輝祭ミュージックフェス</option>
+      <option value="901">学部対抗クイズ</option>
+      <option value="901">世代を超える！イントロドン</option>
+      <option value="901">ビンゴ大会</option>
       <option value="9-1">スペシャルティコーヒーの提供と豆販売</option>
       <option value="9-1">出張こみCafe ～羊毛フェルトマスコットとお菓子の販売～</option>
       <option value="9-2">休憩コーナー</option>
       <option value="9-2">保育児童学部の魅力を留学生が描いてみた</option>
-      <option value="9-3">出張！心理学入門</option>
-      <option value="9-3">入学相談</option>
-      <option value="9-3">つくってあそぼ♪クレーンゲーム</option>
-      <option value="9-3">手作り遊び広場</option>
-      <option value="9-3">出張！王子キャンパス好事研究サークル</option>
-      <option value="9-4">ココロ･クエスト〜命の木を育てよう〜</option>
-      <option value="9-5">手縫いでチャレンジ！簡単お手玉講座</option>
-      <option value="9-5">わらべうた遊び講座</option>
+      <option value="931">出張！心理学入門</option>
+      <option value="932">入学相談</option>
+      <option value="933">つくってあそぼ♪クレーンゲーム</option>
+      <option value="933">手作り遊び広場</option>
+      <option value="934">出張！王子キャンパス好事研究サークル</option>
+      <option value="942">ココロ･クエスト〜命の木を育てよう〜</option>
+      <option value="952">手縫いでチャレンジ！簡単お手玉講座</option>
+      <option value="952">わらべうた遊び講座</option>
       </optgroup>
 
      <optgroup label="8号館">
       <option value="8-1">8号館入口</option>
       <option value="8-1">障害者施設製品販売～僕らが描いたもの～</option>
       <option value="8-1">着物生地を再利用した、作品の展示</option>
-      <option value="8-2">秋祭り</option>
-      <option value="8-3">事件ファイル001隠された宝</option>
-      <option value="8-3">ありがとうを届ける、ほっとメッセージ</option>
-      <option value="8-4">めざせハットトリック！？ダーツ体験！</option>
-      <option value="8-4">あの頃のお使い</option>
-      <option value="8-4">リアル人生ゲーム～今日だけ人生やり直せます。～</option>
-      <option value="8-5">ボドゲとレクで遊ぼう！</option>
-      <option value="8-6">演奏会</option>
-      <option value="8-7">タイムカプセル・メモリアル企画</option>
-      <option value="8-7">千輝祭ヒストリー</option>
+      <option value="821">秋祭り</option>
+      <option value="831">事件ファイル001隠された宝</option>
+      <option value="832">ありがとうを届ける、ほっとメッセージ</option>
+      <option value="841">めざせハットトリック！？ダーツ体験！</option>
+      <option value="842">あの頃のお使い</option>
+      <option value="843">リアル人生ゲーム～今日だけ人生やり直せます。～</option>
+      <option value="851">ボドゲとレクで遊ぼう！</option>
+      <option value="861">演奏会</option>
+      <option value="871">タイムカプセル・メモリアル企画</option>
+      <option value="872">千輝祭ヒストリー</option>
       <option value="8-1">喫煙所</option>
       </optgroup>
 
@@ -465,7 +465,6 @@ const toiletPhotos = {
 };
 
 　function showRoute() {
-  
   const start = document.getElementById("start").value;
   const destination = document.getElementById("destination").value;
   const routeMode = document.getElementById("routeMode").value;
@@ -476,118 +475,119 @@ const toiletPhotos = {
     return;
   }
 
-  let route = [];
+  if (start === destination) {
+    result.innerHTML = "<p>現在地と目的地が同じ場所です！</p>";
+    return;
+  }
 
   const isBarrierFree = routeMode === "barrierfree";
 
+  // 建物を判定
+  const startBuilding = start.startsWith("8") ? "8" : "9";
+  const destBuilding = destination.startsWith("8") ? "8" : "9";
 
-  // 9号館3階 → 931
-  if (start === "9-3" && destination === "931") {
+  // 階を判定（901は9号館B1階）
+  function getFloor(value) {
+    if (value === "901") return "B1階";
 
-    route = [
-      "9号館3階の現在地から出発します",
-      "廊下を進みます",
-      "931教室へ向かいます",
-      "931教室に到着です！"
-    ];
+    if (value === "9-1" || value === "8-1") return "1階";
+    if (value === "9-2" || value === "821") return "2階";
 
+    if (
+      value === "9-3" ||
+      value === "931" ||
+      value === "932" ||
+      value === "933" ||
+      value === "934" ||
+      value === "831" ||
+      value === "832"
+    ) return "3階";
+
+    if (
+      value === "9-4" ||
+      value === "941" ||
+      value === "942" ||
+      value === "841"
+    ) return "4階";
+
+    if (
+      value === "9-5" ||
+      value === "952" ||
+      value === "851"
+    ) return "5階";
+
+    if (value === "861") return "6階";
+    if (value === "871" || value === "872") return "7階";
+
+    return "1階";
   }
 
-  // 9号館3階 → 901
-  else if (start === "9-3" && destination === "901") {
+  const startFloor = getFloor(start);
+  const destFloor = getFloor(destination);
 
-    route = [
-      "9号館3階から出発します",
-      "階段またはエレベーターでB1階へ移動します",
-      "9号館B1階へ向かいます",
-      "901教室に到着です！"
-    ];
+  let route = [];
 
+  // 9号館B1階から出発する場合
+  if (start === "901") {
+    route.push("9号館B1階の現在地から出発します");
   }
 
-  // 9号館5階 → 931
-  else if (start === "9-5" && destination === "931") {
-
-    route = [
-      "9号館5階から出発します",
-      "階段またはエレベーターで3階へ移動します",
-      "3階の廊下を進みます",
-      "931教室に到着です！"
-    ];
-
-  }
-
-  // 8号館 → 9号館
-  else if (start.startsWith("8-") && destination.startsWith("9")) {
-
+  // 建物が違う場合
+  if (startBuilding !== destBuilding) {
     if (isBarrierFree) {
-
       route = [
-        "現在地の階からエレベーターへ向かいます",
-        "エレベーターで8号館の入口階へ移動します",
-        "8号館の入口から出ます",
-        "段差の少ないルートで9号館へ移動します",
-        "9号館の入口から入ります",
-        "エレベーターで目的の階へ移動します",
+        `現在地の${startBuilding}号館${startFloor}からエレベーターへ向かいます`,
+        `${startBuilding}号館の入口階へ移動します`,
+        `${startBuilding}号館の入口から出ます`,
+        "段差の少ないルートで別の号館へ移動します",
+        `${destBuilding}号館の入口から入ります`,
+        `エレベーターで目的の${destFloor}へ移動します`,
         "目的地に到着です！"
       ];
-
     } else {
-
       route = [
-        "現在地の階から8号館の入口へ向かいます",
-        "8号館の入口から出ます",
-        "9号館へ移動します",
-        "9号館の入口から入ります",
-        "目的の階へ移動します",
+        `現在地の${startBuilding}号館${startFloor}から入口へ向かいます`,
+        `${startBuilding}号館の入口から出ます`,
+        `${destBuilding}号館へ移動します`,
+        `${destBuilding}号館の入口から入ります`,
+        `目的の${destFloor}へ移動します`,
         "目的地に到着です！"
       ];
-
     }
-
   }
 
-  // 9号館 → 8号館
-  else if (start.startsWith("9-") && destination.startsWith("8")) {
-
-    if (isBarrierFree) {
-
-      route = [
-        "現在地の階からエレベーターへ向かいます",
-        "エレベーターで9号館の入口階へ移動します",
-        "9号館の入口から出ます",
-        "段差の少ないルートで8号館へ移動します",
-        "8号館の入口から入ります",
-        "エレベーターで目的の階へ移動します",
-        "目的地に到着です！"
-      ];
-
-    } else {
-
-      route = [
-        "現在地の階から9号館の入口へ向かいます",
-        "9号館の入口から出ます",
-        "8号館へ移動します",
-        "8号館の入口から入ります",
-        "目的の階へ移動します",
-        "目的地に到着です！"
-      ];
-
-    }
-  } //
-
-  // その他
+  // 同じ建物の場合
   else {
+    if (start !== "901") {
+      route.push(
+        `${startBuilding}号館${startFloor}の現在地から出発します`
+      );
+    }
 
-    route = [
-      "現在地から目的地へ向かいます",
-      "目的の階へ移動します",
-      "目的地の教室を目指します",
-      "到着です！"
-    ];
+    if (startFloor !== destFloor) {
+      if (isBarrierFree) {
+        route.push("エレベーターへ向かいます");
+        route.push(`エレベーターで${destFloor}へ移動します`);
+      } else {
+        route.push(
+          `階段またはエレベーターで${destFloor}へ移動します`
+        );
+      }
+    }
 
+    route.push("目的の階の廊下を進みます");
+    route.push("目的地の企画・教室に到着です！");
   }
 
+  // 写真がなくてもルートを表示する
+  result.innerHTML = `
+    <h3>📍 行き方</h3>
+    <ol>
+      ${route.map(step => `<li>${step}</li>`).join("")}
+    </ol>
+    <p>📷 写真は準備でき次第追加します。</p>
+  `;
+}
 
   // トイレ情報
   const toilet = toilets[start];
