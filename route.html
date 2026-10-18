@@ -479,19 +479,18 @@ if (startBuilding !== destBuilding) {
   route.push(`${destBuilding}号館の入口から入ります`);
 
   if (isBarrierFree) {
-    route.push("エレベーターまで進みます");
-    route.push(`
-      エレベーターで${destFloor}へ移動します
-      <img src="./${destBuilding}号館エレベーター.jpeg"
-           alt="エレベーター"
-           style="width:100%; max-width:400px; border-radius:8px;">
-    `);
-  } else {
-    route.push(`階段またはエレベーターで${destFloor}へ移動します`);
-  }
-
+  route.push(`${startBuilding}号館のエレベーターまで進みます`);
+  route.push(`
+    エレベーターで1階へ移動します
+    <img src="./${startBuilding}号館エレベーター.jpeg"
+         alt="エレベーター"
+         style="width:100%; max-width:400px; border-radius:8px;">
+  `);
+  route.push("1階の入口へ向かいます");
 } else {
-  route.push(`${startBuilding}号館${startFloor}の現在地から出発します`);
+  route.push(`${startBuilding}号館${startFloor}から入口へ向かいます`);
+}
+
 
   if (startFloor !== destFloor) {
     if (isBarrierFree) {
