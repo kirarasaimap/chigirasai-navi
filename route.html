@@ -566,18 +566,19 @@ route.push("目的地の企画・教室に到着です！");
   }
 
   result.innerHTML = `
-    <div class="route-box">
-      <h2>🗺️ 行き方</h2>
-      ${route.map((step, index) => `
-        <div class="route-step">
-          <strong>STEP ${index + 1}</strong>
-          <p>${step}</p>
-        </div>`).join("")}
-      <p>📷 写真は準備でき次第追加します。</p>
-      ${toiletHTML}
-    </div>`;
+  <div class="route-box">
+    <h2>🗺️ 行き方</h2>
+    ${route.map((step, index) => `
+      <div class="route-step">
+        <strong>STEP ${index + 1}</strong>
+        <div>${step}</div>
+      </div>
+    `).join("")}
+    ${toiletHTML}
+  </div>
+`;
 
-  result.style.display = "block";
+result.style.display = "block";
 }
 </script>
 </body>
