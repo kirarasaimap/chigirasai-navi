@@ -486,9 +486,24 @@ function showRoute() {
     route.push(`${startBuilding}号館${startFloor}の現在地から出発します`);
 
     if (startFloor !== destFloor) {
-      route.push(isBarrierFree ? "エレベーターへ向かいます" : "階段またはエレベーターへ向かいます");
-      route.push(`目的の${destFloor}へ移動します`);
-    }
+  if (isBarrierFree) {
+    route.push(`
+      エレベーターへ向かいます
+      <img src="./${startBuilding}号館エレベーター.jpeg"
+           alt="エレベーター"
+           style="width:100%; max-width:400px; border-radius:8px;">
+    `);
+    route.push(`
+      エレベーターで${destFloor}へ移動します
+      <img src="./${destBuilding}号館エレベーター.jpeg"
+           alt="エレベーター"
+           style="width:100%; max-width:400px; border-radius:8px;">
+    `);
+  } else {
+    route.push("階段またはエレベーターへ向かいます");
+    route.push(`目的の${destFloor}へ移動します`);
+  }
+}
 
     route.push("目的の階の廊下を進みます");
   }
