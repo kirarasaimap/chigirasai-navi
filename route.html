@@ -645,28 +645,19 @@ toiletHTML = `
     `;
   }
      
-  // ルート表示
+   // ルート表示
   result.innerHTML = `
     <div class="route-box">
-
-      <h2>🗺️ 写真付きルート</h2>
+      <h2>🗺️ 行き方</h2>
 
       ${route.map((step, index) => `
         <div class="route-step">
-
           <strong>STEP ${index + 1}</strong>
-
-          <div class="photo-placeholder">
-            📷 写真を入れる場所
-          </div>
-
           <p>${step}</p>
-
         </div>
       `).join("")}
 
       ${toiletHTML}
-
     </div>
   `;
 
