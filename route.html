@@ -476,7 +476,14 @@ function showRoute() {
 
 if (startBuilding !== destBuilding) {
   if (isBarrierFree) {
-    route.push(`${startBuilding}号館${startFloor}からエレベーターまで進みます`);
+    route.push(`
+  ${startBuilding}号館の入口から出ます
+  <img src="./${startBuilding === "8" ? "8号館1階出る.jpeg" : "外 9号館から出る(9号館から).jpeg"}"
+     alt="入口の写真"
+     style="width:100%; max-width:400px; border-radius:8px;">
+       alt="9号館から出る入口.jpeg"
+       style="width:100%; max-width:400px; border-radius:8px;">
+`);
     route.push(`
       エレベーターで1階へ移動します
       <img src="./${startBuilding}号館エレベーター.jpeg"
@@ -489,7 +496,12 @@ if (startBuilding !== destBuilding) {
 
   route.push(`${startBuilding}号館の入口から出ます`);
   route.push(`${destBuilding}号館へ移動します`);
-  route.push(`${destBuilding}号館の入口から入ります`);
+  route.push(`
+  ${destBuilding}号館の入口から入ります
+  <img src="./${destBuilding === "8" ? "8号館1階出る.jpeg" : "外 9号館から出る(9号館から).jpeg"}"
+       alt="入口の写真"
+       style="width:100%; max-width:400px; border-radius:8px;">
+`);
 
   if (startFloor !== destFloor) {
     if (isBarrierFree) {
