@@ -475,36 +475,32 @@ function showRoute() {
   const startBuilding = start.startsWith("8") ? "8" : "9";
   const destBuilding = destination.startsWith("8") ? "8" : "9";
   const startFloor = getFloor(start);
-  function addEightBuildingStairs(route, fromFloor, toFloor) {
+function addEightBuildingStairs(route, fromFloor, toFloor) {
   const from = Number(fromFloor.replace("階", ""));
   const to = Number(toFloor.replace("階", ""));
 
   if (from === to) return;
 
   if (from < to) {
-    for (let floor = from; floor < to; floor++) {
-      const photo = floor === 1
-        ? "8号館 1階階段上がる.jpeg"
-        : "8号館階段上へ.jpeg";
+    const photo = from === 1
+      ? "8号館 1階階段上がる.jpeg"
+      : "8号館階段上へ.jpeg";
 
-      route.push(`
-        階段で${floor + 1}階へ上がります
-        <img src="./${photo}" alt="8号館の階段"
-             style="width:100%; max-width:400px; border-radius:8px;">
-      `);
-    }
+    route.push(`
+      階段で${to}階まで上がります
+      <img src="./${photo}" alt="8号館の階段"
+           style="width:100%; max-width:400px; border-radius:8px;">
+    `);
   } else {
-    for (let floor = from; floor > to; floor--) {
-      const photo = floor === 7
-        ? "8号館7階階段下へ.jpeg"
-        : "8号館階段下へ.jpeg";
+    const photo = from === 7
+      ? "8号館7階階段下へ.jpeg"
+      : "8号館階段下へ.jpeg";
 
-      route.push(`
-        階段で${floor - 1}階へ下ります
-        <img src="./${photo}" alt="8号館の階段"
-             style="width:100%; max-width:400px; border-radius:8px;">
-      `);
-    }
+    route.push(`
+      階段で${to}階まで下ります
+      <img src="./${photo}" alt="8号館の階段"
+           style="width:100%; max-width:400px; border-radius:8px;">
+    `);
   }
 }
   const destFloor = getFloor(destination);
