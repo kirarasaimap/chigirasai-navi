@@ -501,7 +501,12 @@ if (startBuilding !== destBuilding) {
              style="width:100%; max-width:400px; border-radius:8px;">
       `);
     } else {
-      route.push(`階段で${destFloor}へ移動します`);
+      route.push(`
+  階段で${destFloor}へ移動します
+  <img src="./${destBuilding}号館階段上へ.jpeg"
+       alt="階段"
+       style="width:100%; max-width:400px; border-radius:8px;">
+`);
     }
   }
 
