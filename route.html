@@ -475,6 +475,38 @@ function showRoute() {
   const startBuilding = start.startsWith("8") ? "8" : "9";
   const destBuilding = destination.startsWith("8") ? "8" : "9";
   const startFloor = getFloor(start);
+  function addEightBuildingStairs(route, fromFloor, toFloor) {
+  const from = Number(fromFloor.replace("階", ""));
+  const to = Number(toFloor.replace("階", ""));
+
+  if (from === to) return;
+
+  if (from < to) {
+    for (let floor = from; floor < to; floor++) {
+      const photo = floor === 1
+        ? "8号館 1階階段上がる.jpeg"
+        : "8号館階段上へ.jpeg";
+
+      route.push(`
+        階段で${floor + 1}階へ上がります
+        <img src="./${photo}" alt="8号館の階段"
+             style="width:100%; max-width:400px; border-radius:8px;">
+      `);
+    }
+  } else {
+    for (let floor = from; floor > to; floor--) {
+      const photo = floor === 7
+        ? "8号館7階階段下へ.jpeg"
+        : "8号館階段下へ.jpeg";
+
+      route.push(`
+        階段で${floor - 1}階へ下ります
+        <img src="./${photo}" alt="8号館の階段"
+             style="width:100%; max-width:400px; border-radius:8px;">
+      `);
+    }
+  }
+}
   const destFloor = getFloor(destination);
 
     let route = [];
@@ -539,16 +571,16 @@ if (start === "931" && destination === "934") {
              alt="エレベーター"
              style="width:100%; max-width:400px; border-radius:8px;">
       `);
-    } else {
-      route.push(`
-  階段で${destFloor}へ移動します
-  <img src="./${destBuilding}号館階段上へ.jpeg"
-       alt="階段"
-       style="width:100%; max-width:400px; border-radius:8px;">
-`);
-    }
-  }
-
+   } else {
+  if (startBuilding === "8") {
+    addEightBuildingStairs(route, startFloor, destFloor);
+  } else {
+  if (startBuilding === "8") {
+    addEightBuildingStairs(route, startFloor, destFloor);
+  } else {
+    route.push(`階段で${destFloor}へ移動します`);
+  }
+}
   route.push(`
   目的の階の廊下を進みます
   <img src="./${destBuilding === "8" ? "8号館教室出て真っ直ぐ.jpeg" : destFloor === "3階" ? "9号館3階廊下真っ直ぐ(右手側).jpeg" : destFloor === "4階" ? "9号館4階階段(右手側).jpeg" : destFloor === "5階" ? "9号館5階階段から(左手側).jpeg" : "9号館地下廊下真っ直ぐ.jpeg"}"
