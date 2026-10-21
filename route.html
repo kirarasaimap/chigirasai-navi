@@ -478,7 +478,31 @@ function showRoute() {
 
     let route = [];
 
-if (startBuilding !== destBuilding) {
+if (start === "931" && destination === "934") {
+  route.push("931を出ます");
+
+  route.push(`
+    廊下を真っ直ぐ進みます
+    <img src="./9号館3階廊下真っ直ぐ(左手側).jpeg"
+         alt="3階の廊下"
+         style="width:100%; max-width:400px; border-radius:8px;">
+  `);
+
+  route.push(`
+    934の通路へ進みます
+    <img src="./9号館3階934通路へ.jpeg"
+         alt="934の通路"
+         style="width:100%; max-width:400px; border-radius:8px;">
+  `);
+
+  route.push(`
+    934の通路を進みます
+    <img src="./9号館3階934通路行く.jpeg"
+         alt="934へ向かう通路"
+         style="width:100%; max-width:400px; border-radius:8px;">
+  `);
+
+} else if (startBuilding !== destBuilding) {
   if (isBarrierFree) {
     route.push(`
   ${startBuilding}号館の入口から出ます
