@@ -506,8 +506,8 @@ function showRoute() {
   }
 
   const isBarrierFree = routeMode === "barrierfree";
-  const startBuilding = start.startsWith("8") ? "8" : "9";
-  const destBuilding = destination.startsWith("8") ? "8" : "9";
+  const startBuilding = start.startsWith("8") || start.startsWith("841") ? "8" : "9";
+const destBuilding = destination.startsWith("8") || destination.startsWith("841") ? "8" : "9";
 
   function getFloor(value) {
     if (value === "901") return "B1階";
