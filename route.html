@@ -331,7 +331,8 @@
       <option value="851">ボドゲとレクで遊ぼう！</option>
       <option value="861">演奏会</option>
       <option value="871">タイムカプセル・メモリアル企画</option>
-      <option value="872">千輝祭ヒストリー</option>
+      <option value="871">千輝祭ヒストリー</option>
+    　<option value="872">映画で人々と交流</option>
       <option value="8-1">喫煙所</option>
       </optgroup>
 
@@ -626,15 +627,15 @@ const destBuilding = destination.startsWith("8") || destination.startsWith("841"
       route.push("<p>エレベーターで1階まで移動します。</p>");
     } else if (startFloor !== "1階") {
      if (startBuilding === "8") {
-  addPhoto(route, "8号館から外へ出ます", "外 右へ(8号館から).jpeg");
+  addPhoto(route, "8号館から外へ出ます", "外 右へ(８号館から).jpeg");
   addPhoto(route, "外を曲がります", "外 曲がる(8号館から).jpeg");
   addPhoto(route, "外を真っ直ぐ進みます", "外 真っ直ぐ(8号館から).jpeg");
   addPhoto(route, "9号館に入ります", "外 9号館入る(8号館から).jpeg");
 } else {
   addPhoto(route, "9号館から外へ出ます", "外 9号館から出る(9号館から).jpeg");
   addPhoto(route, "外を曲がります", "外 曲がる(9号館から).jpeg");
-  addPhoto(route, "外を真っ直ぐ進みます", "外 真っ直ぐ(9号館から).jpeg");
-  addPhoto(route, "8号館の入口へ向かいます", "外 8号館入り口入る(9号館から).jpeg");
+  addPhoto(route, "外を真っ直ぐ進みます", "外 真っ直ぐ(９号館から).jpeg");
+  addPhoto(route, "8号館の入口へ向かいます", "外 8号館入り口入る(９号館から).jpeg");
   addPhoto(route, "8号館に入ります", "外 8号館入る(9号館から).jpeg");
 }
     }
