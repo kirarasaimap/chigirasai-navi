@@ -715,8 +715,13 @@ if (direction) {
       } else {
         if (["931", "932", "933", "934"].includes(destination)) {
           addPhoto(route, "3階の廊下を進みます", "9号館3階廊下真っ直ぐ(右手側).jpeg");
-        } else if (["941", "942"].includes(destination)) {
-          addPhoto(route, "4階の廊下を進みます", "9号館4階階段(右手側).jpeg");
+        } else if (["942"].includes(destination)) {
+  addPhoto(route, "4階の廊下を進みます", "9号館4階階段(右手側).jpeg");
+
+  if (destination === "942") {
+    addPhoto(route, "942へ進みます", "9号館4階942へ(右手側).jpeg");
+  }
+}
         } else if (["952", "953", "954"].includes(destination)) {
           addPhoto(route, "5階の廊下を進みます", "9号館5階階段から(左手側).jpeg");
         } else if (destination === "901") {
