@@ -233,8 +233,8 @@
       <option value="901">ビンゴ大会</option>
       <option value="9-1">スペシャルティコーヒーの提供と豆販売</option>
       <option value="9-1">出張こみCafe ～羊毛フェルトマスコットとお菓子の販売～</option>
-      <option value="9-2left">休憩コーナー</option>
-      <option value="9-2right">保育児童学部の魅力を留学生が描いてみた</option>
+      <option value="9-2-left">休憩コーナー</option>
+      <option value="9-2-right">保育児童学部の魅力を留学生が描いてみた</option>
       <option value="931">出張！心理学入門</option>
       <option value="932">入学相談</option>
       <option value="933">つくってあそぼ♪クレーンゲーム</option>
@@ -660,47 +660,63 @@ route.push(`
              style="width:100%; max-width:400px; border-radius:8px;">
       `);
     } else {
-      if (startBuilding === "8") {
-        addEightBuildingStairs(route, startFloor, destFloor);
-      } else {
-        let stairSide = "右手";
+  if (startFloor !== destFloor) {
+    if (isBarrierFree) {
+      route.push(`${startBuilding}号館のエレベーターまで進みます`);
+      route.push(`
+        エレベーターで${destFloor}へ移動します
+        <img src="./${startBuilding}号館エレベーター.jpeg"
+             alt="エレベーター"
+             style="width:100%; max-width:400px; border-radius:8px;">
+      `);
+    } else if (startBuilding === "8") {
+      addEightBuildingStairs(route, startFloor, destFloor);
+    } else {
+      const from = startFloor === "B1階" ? 0 : Number(startFloor.replace("階", ""));
+      const to = Number(destFloor.replace("階", ""));
+      let stairSide = "右手";
 
-        if (startFloor === "B1階" || startFloor === "1階") {
-          stairSide = "左手";
-        } else if (start === "9-2-left" || start === "931" || start === "932") {
-          stairSide = "左手";
-        }
+      if (from < to) {
+        if (startFloor === "B1階" || startFloor === "1階" ||
+            start === "9-2-left" || start === "931" || start === "932") {
+          stairSide = "左手";
+        }
 
-        const photo = stairSide === "左手"
-          ? "9号館左手階段上へ.jpeg"
-          : "9号館右手階段上へ.jpeg";
+        const photo = startFloor === "B1階"
+          ? "9号館地下から上へ(左手側).jpeg"
+          : stairSide === "左手"
+            ? "9号館左手階段上へ.jpeg"
+            : "9号館右手階段上へ.jpeg";
 
-        route.push(`
-          9号館の${stairSide}側の階段で${destFloor}まで上がります
-          <img src="./${photo}" alt="9号館${stairSide}側の階段"
-               style="width:100%; max-width:250px; border-radius:8px;">
-        `);
-      }
+        route.push(`
+          9号館の${stairSide}側の階段で${destFloor}まで上がります
+          <img src="./${photo}" alt="階段"
+               style="width:100%; max-width:250px; border-radius:8px;">
+        `);
+      } else {
+        if (startFloor === "5階") {
+          stairSide = "右手";
+        } else if (start === "9-2-left" || start === "931" ||
+                   start === "932" || startFloor === "2階" ||
+                   startFloor === "1階") {
+          stairSide = "左手";
+        }
 
-Outlook for iOS を入手
+        const photo = startFloor === "5階"
+          ? "9号館5階階段下へ(右手側).jpeg"
+          : stairSide === "左手"
+            ? "9号館左手階段下へ.jpeg"
+            : "9号館右手階段下へ.jpeg";
+
+        route.push(`
+          9号館の${stairSide}側の階段で${destFloor}まで下ります
+          <img src="./${photo}" alt="階段"
+               style="width:100%; max-width:250px; border-radius:8px;">
+        `);
+      }
     }
   }
 }
-
-route.push("目的地の企画・教室に到着です！");
-  const toiletKey = getToiletKey(start);
-  const toilet = toilets[toiletKey];
-  const photos = toiletPhotos[toiletKey] || [];
-
-  let toiletHTML = "";
-
-  if (toilet) {
-    const photoHTML = photos.map((photo, index) => {
-      let info = "";
-    }
-  }
-}
-
 route.push("目的地の企画・教室に到着です！");
   const toiletKey = getToiletKey(start);
   const toilet = toilets[toiletKey];
