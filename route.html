@@ -671,7 +671,16 @@ function showRoute() {
     toiletHTML += `</section>`;
   }
 
-  result.innerHTML = `<div class="route-steps">${route.join("")}</div>${toiletHTML}`;
+  result.innerHTML =
+  `<div class="route-steps">
+    ${route.map((step, index) =>
+      `<div class="route-step">
+        <h3>ステップ${index + 1}</h3>
+        ${step}
+      </div>`
+    ).join("")}
+  </div>
+  ${toiletHTML}`;
   result.style.display = "block";
 }
 </script>
