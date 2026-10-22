@@ -235,6 +235,32 @@
   margin: 8px 0;
   font-weight: bold;
 }
+
+  .route-summary {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.route-summary p {
+  margin: 8px 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.route-summary p:first-child::before {
+  content: "● ";
+  color: #2e9d59;
+}
+
+.route-summary p:last-child::before {
+  content: "● ";
+  color: #df5252;
+}
   </style>   
 </head>
 
@@ -254,7 +280,7 @@
     <div class="step-title">STEP 1　出発地</div>
 
     <select id="start">
-      <option value="">現在地を選択してください</option>
+      <option value="">出発地を選択してください</option>
 
       <optgroup label="9号館">
       <option value="9-1">9号館入口</option>
@@ -309,7 +335,7 @@
     <div class="step-title">STEP 2　目的地</div>
 
     <select id="destination">
-      <option value="">行きたい企画を選択してください</option>
+      <option value="">目的地を選択してください</option>
 
       <optgroup label="9号館">
       <option value="9-1">9号館入口</option>
@@ -467,8 +493,11 @@ function showRoute() {
   const start = document.getElementById("start").value;
   const destination = document.getElementById("destination").value;
   const routeMode = document.getElementById("routeMode").value;
-  const result = document.getElementById("routeResult");
+  const startName =
+  document.getElementById("start").selectedOptions[0].text;
 
+const destinationName =
+  document.getElementById("destination").selectedOptions[0].text;
   if (!start || !destination) {
     alert("現在地と行きたい企画を選んでね！");
     return;
@@ -707,7 +736,11 @@ function showRoute() {
   }
 
   result.innerHTML =
-  `<div class="route-steps">
+  `<div class="route-summary">
+    <p>出発：${startName}</p>
+    <p>到着：${destinationName}</p>
+  </div>
+  <div class="route-steps">
     ${route.map((step, index) =>
       `<div class="route-step">
         <h3>ステップ${index + 1}</h3>
