@@ -429,362 +429,250 @@ const toiletPhotos = {
 };
 
 function showRoute() {
-  const start = document.getElementById("start").value;
-  const destination = document.getElementById("destination").value;
-  const routeMode = document.getElementById("routeMode").value;
-  const result = document.getElementById("routeResult");
+  const start = document.getElementById("start").value;
+  const destination = document.getElementById("destination").value;
+  const routeMode = document.getElementById("routeMode").value;
+  const result = document.getElementById("routeResult");
 
-  if (!start || !destination) {
-    alert("現在地と行きたい企画を選んでください！");
-    return;
-  }
-
-  const isBarrierFree = routeMode === "barrierfree";
-
-  function getFloor(value) {
-    if (value === "901") return "B1階";
-    if (value === "9-1" || value === "8-1") return "1階";
-    if (["9-2", "9-2-left", "9-2-right", "821"].includes(value)) return "2階";
-
-    if (["9-3","931","932","933","934","831","832"].includes(value))
-      return "3階";
-
-    if (["9-4","941","942","841","842","843"].includes(value))
-      return "4階";
-
-    if (["9-5","952","851"].includes(value)) return "5階";
-    if (value === "861") return "6階";
-    if (["871","872"].includes(value)) return "7階";
-    return "1階";
-  }
-
-  function getToiletKey(value) {
-    if (value === "901") return "901";
-    if (["931","932","933","934"].includes(value)) return "9-3";
-    if (["941","942"].includes(value)) return "9-4";
-    if (value === "952") return "9-5";
-    if (value === "821") return "8-2";
-    if (["831","832"].includes(value)) return "8-3";
-    if (["841","842","843"].includes(value)) return "8-4";
-    if (value === "851") return "8-5";
-    if (value === "861") return "8-6";
-    if (["871","872"].includes(value)) return "8-7";
-    return value;
-  }
-
-  const startBuilding = start.startsWith("8") ? "8" : "9";
-  const destBuilding = destination.startsWith("8") ? "8" : "9";
-  const startFloor = getFloor(start);
-function addEightBuildingStairs(route, fromFloor, toFloor) {
-  const from = Number(fromFloor.replace("階", ""));
-  const to = Number(toFloor.replace("階", ""));
-
-  if (from === to) return;
-
-  if (from < to) {
-    const photo = from === 1
-      ? "8号館 1階階段上がる.jpeg"
-      : "8号館階段上へ.jpeg";
-
-    route.push(`
-      階段で${to}階まで上がります
-      <img src="./${photo}" alt="8号館の階段"
-           style="width:100%; max-width:400px; border-radius:8px;">
-    `);
-  } else {
-    const photo = from === 7
-      ? "8号館7階階段下へ.jpeg"
-      : "8号館階段下へ.jpeg";
-
-    route.push(`
-      階段で${to}階まで下ります
-      <img src="./${photo}" alt="8号館の階段"
-           style="width:100%; max-width:400px; border-radius:8px;">
-    `);
-  }
-}
-  const destFloor = getFloor(destination);
-
-    let route = [];
-
-if (start === "931" && destination === "934") {
-  route.push("931を出ます");
-
-  route.push(`
-    廊下を真っ直ぐ進みます
-    <img src="./9号館3階廊下真っ直ぐ(左手側).jpeg"
-         alt="3階の廊下"
-         style="width:100%; max-width:400px; border-radius:8px;">
-  `);
-
-  route.push(`
-    934の通路へ進みます
-    <img src="./9号館3階934通路へ.jpeg"
-         alt="934の通路"
-         style="width:100%; max-width:400px; border-radius:8px;">
-  `);
-
-  route.push(`
-    934の通路を進みます
-    <img src="./9号館3階934通路行く.jpeg"
-         alt="934へ向かう通路"
-         style="width:100%; max-width:250px; border-radius:8px;">
-  `);
-
-} else if (startBuilding !== destBuilding) {
-  if (isBarrierFree) {
-    route.push(`
-  ${startBuilding}号館の入口から出ます
-  <img src="./${startBuilding === "8" ? "8号館1階出る.jpeg" : "外 9号館から出る(9号館から).jpeg"}"
-       alt="入口の写真"
-       style="width:100%; max-width:400px; border-radius:8px;">
-`);
-    route.push(`
-      エレベーターで1階へ移動します
-      <img src="./${startBuilding}号館エレベーター.jpeg"
-           alt="エレベーター"
-           style="width:100%; max-width:400px; border-radius:8px;">
-    `);
-  } else {
-    route.push(`${startBuilding}号館${startFloor}から入口へ向かいます`);
-  }
-
-  route.push(`${startBuilding}号館の入口から出ます`);
-  route.push(`${destBuilding}号館へ移動します`);
-  route.push(`
-  ${destBuilding}号館の入口から入ります
-  <img src="./${destBuilding === "8" ? "8号館1階出る.jpeg" : "外 9号館から出る(9号館から).jpeg"}"
-       alt="入口の写真"
-       style="width:100%; max-width:400px; border-radius:8px;">
-`);
-
-  if (startFloor !== destFloor) {
-  if (isBarrierFree) {
-    route.push(`${destBuilding}号館のエレベーターまで進みます`);
-    route.push(`
-      エレベーターで${destFloor}へ移動します
-      <img src="./${destBuilding}号館エレベーター.jpeg"
-           alt="エレベーター"
-           style="width:100%; max-width:400px; border-radius:8px;">
-    `);
-  
-} else {
-  if (destBuilding === "8") {
-    addEightBuildingStairs(route, "1階", destFloor);
-  } else {
-    const from = Number(startFloor.replace("階", ""));
-    const to = Number(destFloor.replace("階", ""));
-
-    if (startFloor === "B1階") {
-      route.push(`
-        9号館の左手側の階段で${destFloor}まで上がります
-        <img src="./9号館地下から上へ(左手側).jpeg"
-             alt="9号館地下から上がる左手側の階段"
-             style="width:100%; max-width:250px; border-radius:8px;">
-      `);
-    } else if (from > to) {
-  let stairSide = "右手";
-
-  if (
-    start === "9-2-left" ||
-    start === "931" ||
-    start === "932" ||
-    startFloor === "1階"
-  ) {
-    stairSide = "左手";
+  if (!start || !destination) {
+    alert("現在地と行きたい企画を選んでね！");
+    return;
   }
 
-  const photo = startFloor === "5階"
-    ? "9号館5階階段下へ(右手側).jpeg"
-    : stairSide === "左手"
-      ? "9号館左手階段下へ.jpeg"
-      : "9号館右手階段下へ.jpeg";
+  if (start === destination) {
+    alert("現在地と行きたい企画が同じだよ。別の場所を選んでね！");
+    return;
+  }
 
-  route.push(`
-    9号館の${stairSide}側の階段で${destFloor}まで下ります
-    <img src="./${photo}"
-         alt="9号館${stairSide}側の階段を下りる"
-         style="width:100%; max-width:250px; border-radius:8px;">
-  `);
-    } else {
-      route.push(`階段で${destFloor}へ移動します`);
-    }
-  }
-}
-  const eightDirections = {
-  "821": "真っ直ぐ",
-  "831": "右",
-  "832": "左",
-  "841": "真っ直ぐ",
-  "851": "真っ直ぐ",
-  "861": "真っ直ぐ",
-  "871": "右",
-  "872": "左"
-};
+  const isBarrierFree = routeMode === "barrierfree";
+  const startBuilding = start.startsWith("8") ? "8" : "9";
+  const destBuilding = destination.startsWith("8") ? "8" : "9";
 
-const eightDirection = eightDirections[destination] || "真っ直ぐ";
+  function getFloor(value) {
+    if (value === "901") return "B1階";
+    if (["9-1", "8-1"].includes(value)) return "1階";
+    if (["9-2", "9-2-left", "9-2-right", "821"].includes(value)) return "2階";
+    if (["9-3", "931", "932", "933", "934", "831", "832"].includes(value)) return "3階";
+    if (["9-4", "941", "942", "841", "842", "843"].includes(value)) return "4階";
+    if (["9-5", "952", "953", "954", "851"].includes(value)) return "5階";
+    if (value === "861") return "6階";
+    if (["871", "872"].includes(value)) return "7階";
+    return "1階";
+  }
 
-const corridorPhoto = destBuilding === "8"
-  ? `8号館踊り場から${eightDirection}へ.jpeg`
-  : destFloor === "3階"
-    ? "9号館3階廊下真っ直ぐ(右手側).jpeg"
-    : destFloor === "4階"
-      ? "9号館4階階段(右手側).jpeg"
-      : destFloor === "5階"
-        ? "9号館5階階段から(左手側).jpeg"
-        : "9号館地下廊下真っ直ぐ.jpeg";
+  function getToiletKey(value) {
+    if (value === "901") return "901";
+    if (["931", "932", "933", "934"].includes(value)) return "9-3";
+    if (["941", "942"].includes(value)) return "9-4";
+    if (["952", "953", "954"].includes(value)) return "9-5";
+    if (["9-2-left", "9-2-right"].includes(value)) return "9-2";
+    if (value === "821") return "8-2";
+    if (["831", "832"].includes(value)) return "8-3";
+    if (["841", "842", "843"].includes(value)) return "8-4";
+    if (value === "851") return "8-5";
+    if (value === "861") return "8-6";
+    if (["871", "872"].includes(value)) return "8-7";
+    if (value === "9-1") return "9-1";
+    if (value === "8-1") return "8-1";
+    return value;
+  }
 
-route.push(`
-  目的の階の廊下を進みます
-  <img src="./${corridorPhoto}"
-       alt="廊下の写真"
-       style="width:100%; max-width:400px; border-radius:8px;">
-`);
-} else {
-  if (startFloor !== destFloor) {
-    if (isBarrierFree) {
-      route.push(`${startBuilding}号館のエレベーターまで進みます`);
-      route.push(`
-        エレベーターで${destFloor}へ移動します
-        <img src="./${startBuilding}号館エレベーター.jpeg"
-             alt="エレベーター"
-             style="width:100%; max-width:400px; border-radius:8px;">
-      `);
-    } else {
-      if (isBarrierFree) {
-      route.push(`${startBuilding}号館のエレベーターまで進みます`);
-      route.push(`
-        エレベーターで${destFloor}へ移動します
-        <img src="./${startBuilding}号館エレベーター.jpeg"
-             alt="エレベーター"
-             style="width:100%; max-width:400px; border-radius:8px;">
-      `);
-    } else {
-  if (startFloor !== destFloor) {
-    if (isBarrierFree) {
-      route.push(`${startBuilding}号館のエレベーターまで進みます`);
-      route.push(`
-        エレベーターで${destFloor}へ移動します
-        <img src="./${startBuilding}号館エレベーター.jpeg"
-             alt="エレベーター"
-             style="width:100%; max-width:400px; border-radius:8px;">
-      `);
-    } else if (startBuilding === "8") {
-      addEightBuildingStairs(route, startFloor, destFloor);
-    } else {
-      const from = startFloor === "B1階" ? 0 : Number(startFloor.replace("階", ""));
-      const to = Number(destFloor.replace("階", ""));
-      let stairSide = "右手";
+  function floorNumber(floor) {
+    return floor === "B1階" ? 0 : Number(floor.replace("階", ""));
+  }
 
-      if (from < to) {
-        if (startFloor === "B1階" || startFloor === "1階" ||
-            start === "9-2-left" || start === "931" || start === "932") {
-          stairSide = "左手";
-        }
+  function addPhoto(route, text, photo) {
+    route.push(
+      `<p>${text}</p><img class="route-photo" src="./${photo}" alt="${text}">`
+    );
+  }
 
-        const photo = startFloor === "B1階"
-          ? "9号館地下から上へ(左手側).jpeg"
-          : stairSide === "左手"
-            ? "9号館左手階段上へ.jpeg"
-            : "9号館右手階段上へ.jpeg";
+  function addEightBuildingStairs(route, fromFloor, toFloor) {
+    const from = floorNumber(fromFloor);
+    const to = floorNumber(toFloor);
 
-        route.push(`
-          9号館の${stairSide}側の階段で${destFloor}まで上がります
-          <img src="./${photo}" alt="階段"
-               style="width:100%; max-width:250px; border-radius:8px;">
-        `);
-      } else {
-        if (startFloor === "5階") {
-          stairSide = "右手";
-        } else if (start === "9-2-left" || start === "931" ||
-                   start === "932" || startFloor === "2階" ||
-                   startFloor === "1階") {
-          stairSide = "左手";
-        }
+    if (from === to) return;
 
-        const photo = startFloor === "5階"
-          ? "9号館5階階段下へ(右手側).jpeg"
-          : stairSide === "左手"
-            ? "9号館左手階段下へ.jpeg"
-            : "9号館右手階段下へ.jpeg";
+    if (from < to) {
+      const photo = from === 1
+        ? "8号館 1階階段上がる.jpeg"
+        : "8号館階段上へ.jpeg";
+      addPhoto(route, `階段で${toFloor}まで上がります`, photo);
+    } else {
+      const photo = from === 7
+        ? "8号館7階階段下へ.jpeg"
+        : "8号館階段下へ.jpeg";
+      addPhoto(route, `階段で${toFloor}まで下ります`, photo);
+    }
+  }
 
-        route.push(`
-          9号館の${stairSide}側の階段で${destFloor}まで下ります
-          <img src="./${photo}" alt="階段"
-               style="width:100%; max-width:250px; border-radius:8px;">
-        `);
-      }
-    }
-  }
-}
-route.push("目的地の企画・教室に到着です！");
-  const toiletKey = getToiletKey(start);
+  function addNineBuildingStairs(route, fromFloor, toFloor, target) {
+    const from = floorNumber(fromFloor);
+    const to = floorNumber(toFloor);
+
+    if (from === to) return;
+
+    let side = "右手側";
+    if (["931", "932", "9-2-left"].includes(target)) side = "左手側";
+
+    let photo;
+
+    if (from === 0 && to > from) {
+      photo = side === "左手側"
+        ? "9号館地下から上へ(左手側).jpeg"
+        : "9号館地下から上へ(右手側).jpeg";
+    } else if (from > to) {
+      if (from === 5 && side === "右手側") {
+        photo = "9号館5階階段下へ(右手側).jpeg";
+      } else if (from === 4) {
+        photo = "9号館4階階段下へ.jpeg";
+      } else {
+        photo = side === "左手側"
+          ? "9号館左手階段下へ.jpeg"
+          : "9号館右手階段下へ.jpeg";
+      }
+    } else {
+      photo = side === "左手側"
+        ? "9号館左手階段上へ.jpeg"
+        : "9号館右手階段上へ.jpeg";
+    }
+
+    addPhoto(
+      route,
+      `階段で${toFloor}まで${from < to ? "上がります" : "下ります"}`,
+      photo
+    );
+  }
+
+  const startFloor = getFloor(start);
+  const destFloor = getFloor(destination);
+  const route = [];
+
+  if (startBuilding !== destBuilding) {
+    route.push(`<p>${startFloor}の現在地から${startBuilding}号館の入口へ向かいます。</p>`);
+
+    if (isBarrierFree) {
+      route.push("<p>エレベーターで1階まで移動します。</p>");
+    } else if (startFloor !== "1階") {
+      if (startBuilding === "8") {
+        addEightBuildingStairs(route, startFloor, "1階");
+      } else {
+        addNineBuildingStairs(route, startFloor, "1階", start);
+      }
+    }
+
+    if (startBuilding === "8") {
+      addPhoto(route, "8号館の入口から外へ出ます", "8号館1階出る.jpeg");
+    } else {
+      addPhoto(route, "9号館の入口から外へ出ます", "外 9号館から出る(9号館から).jpeg");
+    }
+
+    route.push("<p>外を通って、目的の号館へ向かいます。</p>");
+
+    if (startBuilding === "8") {
+      addPhoto(route, "9号館の入口から入ります", "外 9号館入り口へ(8号館から).jpeg");
+    } else {
+      addPhoto(route, "8号館の入口から入ります", "外 8号館入り口入る(9号館から).jpeg");
+    }
+
+    if (destFloor !== "1階") {
+      if (isBarrierFree) {
+        route.push(`<p>エレベーターで${destFloor}まで移動します。</p>`);
+      } else if (destBuilding === "8") {
+        addEightBuildingStairs(route, "1階", destFloor);
+      } else {
+        addNineBuildingStairs(route, "1階", destFloor, destination);
+      }
+    }
+  } else {
+    if (startBuilding === "9" && start === "931" && destination === "934") {
+      route.push("<p>931を出ます。</p>");
+      addPhoto(route, "9号館3階の廊下を真っ直ぐ進みます", "9号館3階廊下真っ直ぐ(左手側).jpeg");
+      addPhoto(route, "934の通路へ進みます", "9号館3階934通路へ.jpeg");
+      addPhoto(route, "934の通路を進みます", "9号館3階934通路行く.jpeg");
+    } else if (startBuilding === "9" && start === "934" && destination === "931") {
+      route.push("<p>934を出ます。</p>");
+      addPhoto(route, "9号館3階の廊下を進みます", "9号館3階934通路行く.jpeg");
+      addPhoto(route, "931の方向へ進みます", "9号館3階934通路へ.jpeg");
+      addPhoto(route, "廊下を進みます", "9号館3階廊下真っ直ぐ(左手側).jpeg");
+    } else {
+      if (startFloor !== destFloor) {
+        if (isBarrierFree) {
+          route.push(`<p>エレベーターで${destFloor}まで移動します。</p>`);
+        } else if (startBuilding === "8") {
+          addEightBuildingStairs(route, startFloor, destFloor);
+        } else {
+          addNineBuildingStairs(route, startFloor, destFloor, destination);
+        }
+      }
+
+      if (startBuilding === "8") {
+        const directions = {
+          "821": "真っ直ぐ",
+          "831": "右",
+          "832": "左",
+          "841": "真っ直ぐ",
+          "851": "真っ直ぐ",
+          "861": "真っ直ぐ",
+          "871": "右",
+          "872": "左"
+        };
+
+        const direction = directions[destination];
+        if (direction) {
+          const photo = direction === "右"
+            ? "8号館踊り場から右へ.jpeg"
+            : direction === "左"
+              ? "8号館踊り場から左へ.jpeg"
+              : "8号館踊り場から真っ直ぐ.jpeg";
+          addPhoto(route, `${destFloor}の廊下を${direction}へ進みます`, photo);
+        }
+      } else {
+        if (["931", "932", "933", "934"].includes(destination)) {
+          addPhoto(route, "3階の廊下を進みます", "9号館3階廊下真っ直ぐ(右手側).jpeg");
+        } else if (["941", "942"].includes(destination)) {
+          addPhoto(route, "4階の廊下を進みます", "9号館4階階段(右手側).jpeg");
+        } else if (["952", "953", "954"].includes(destination)) {
+          addPhoto(route, "5階の廊下を進みます", "9号館5階階段から(左手側).jpeg");
+        } else if (destination === "901") {
+          addPhoto(route, "地下1階の廊下を進みます", "9号館地下廊下真っ直ぐ.jpeg");
+        }
+      }
+    }
+  }
+
+  route.push("<p><strong>目的地の企画・教室に到着です！</strong></p>");
+
+  const toiletKey = getToiletKey(destination);
   const toilet = toilets[toiletKey];
-  const photos = toiletPhotos[toiletKey] || [];
 
-  let toiletHTML = "";
+  let toiletHTML = "";
 
-  if (toilet) {
-    const photoHTML = photos.map((photo, index) => {
-      let info = "";
+  if (toilet) {
+    toiletHTML += `<section class="toilet-info"><h3>🚻 最寄りのお手洗い</h3>`;
 
-      if (toiletKey === "9-3") {
-        if (photo.includes("男子トイレ")) {
-          info = `<h3>🚹 男子トイレ</h3><p>${toilet.maleLocation}</p>`;
-        } else if (photo.includes("女子トイレ")) {
-          info = `<h3>🚺 女子トイレ</h3><p>${toilet.femaleLocation}</p>`;
-        }
-      } else if (index === 0) {
-        if (toilet.male && toilet.female) {
-          info = `<h3>🚹 男子トイレ・🚺 女子トイレ</h3><p>${toilet.location || toilet.maleLocation || ""}</p>`;
-        } else if (toilet.male) {
-          info = `<h3>🚹 男子トイレ</h3><p>${toilet.maleLocation || toilet.location || ""}</p>`;
-        } else if (toilet.female) {
-          info = `<h3>🚺 女子トイレ</h3><p>${toilet.femaleLocation || toilet.location || ""}</p>`;
-        } else if (toilet.multipurpose) {
-          info = `<h3>♿ 多目的トイレ</h3><p>${toilet.multipurposeLocation || toilet.location || ""}</p>`;
-        }
-      }
+    if (toilet.male) {
+      toiletHTML += `<p>🚹 男子トイレ：${toilet.maleLocation || toilet.location || ""}</p>`;
+    }
 
-      if (index === 1 && toilet.multipurpose) {
-        info += `<h3>♿ 多目的トイレ</h3><p>${toilet.multipurposeLocation || ""}</p>`;
-      }
+    if (toilet.female) {
+      toiletHTML += `<p>🚺 女子トイレ：${toilet.femaleLocation || toilet.location || ""}</p>`;
+    }
 
-      return `
-        <div class="toilet-photo">
-          <img src="./${photo}" alt="トイレの写真"
-               style="width:100%; max-width:400px; border-radius:8px;">
-          ${info}
-        </div>`;
-    }).join("");
+    if (toilet.multipurpose) {
+      toiletHTML += `<p>♿ 多目的トイレ：${toilet.multipurposeLocation || toilet.location || ""}</p>`;
+    }
 
-    toiletHTML = `
-      <div class="toilet-box">
-        <h2>🚻 最寄りお手洗い</h2>
-        ${photoHTML}
-      </div>`;
-  } else {
-    toiletHTML = `
-      <div class="toilet-box">
-        <h2>🚻 お手洗い</h2>
-        <p>この場所のお手洗い情報はありません。</p>
-      </div>`;
-  }
+    const photos = toiletPhotos[toiletKey] || [];
+    photos.forEach(photo => {
+      toiletHTML += `<img class="route-photo" src="./${photo}" alt="お手洗いの写真">`;
+    });
 
-  result.innerHTML = `
-  <div class="route-box">
-    <h2>🗺️ 行き方</h2>
-    ${route.map((step, index) => `
-      <div class="route-step">
-        <strong>STEP ${index + 1}</strong>
-        <div>${step}</div>
-      </div>
-    `).join("")}
-    ${toiletHTML}
-  </div>
-`;
+    toiletHTML += `</section>`;
+  }
 
-result.style.display = "block";
+  result.innerHTML = `<div class="route-steps">${route.join("")}</div>${toiletHTML}`;
+  result.style.display = "block";
 }
 </script>
 </body>
