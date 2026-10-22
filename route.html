@@ -615,11 +615,18 @@ function showRoute() {
     if (isBarrierFree) {
       route.push("<p>エレベーターで1階まで移動します。</p>");
     } else if (startFloor !== "1階") {
-      if (startBuilding === "8") {
-        addEightBuildingStairs(route, startFloor, "1階");
-      } else {
-        addNineBuildingStairs(route, startFloor, "1階", start);
-      }
+     if (startBuilding === "8") {
+  addPhoto(route, "8号館から外へ出ます", "外 右へ(8号館から).jpeg");
+  addPhoto(route, "外を曲がります", "外 曲がる(8号館から).jpeg");
+  addPhoto(route, "外を真っ直ぐ進みます", "外 真っ直ぐ(8号館から).jpeg");
+  addPhoto(route, "9号館に入ります", "外 9号館入る(8号館から).jpeg");
+} else {
+  addPhoto(route, "9号館から外へ出ます", "外 9号館から出る(9号館から).jpeg");
+  addPhoto(route, "外を曲がります", "外 曲がる(9号館から).jpeg");
+  addPhoto(route, "外を真っ直ぐ進みます", "外 真っ直ぐ(9号館から).jpeg");
+  addPhoto(route, "8号館の入口へ向かいます", "外 8号館入り口入る(9号館から).jpeg");
+  addPhoto(route, "8号館に入ります", "外 8号館入る(9号館から).jpeg");
+}
     }
 
     if (startBuilding === "8") {
