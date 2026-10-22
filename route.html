@@ -676,25 +676,42 @@ const destBuilding = destination.startsWith("8") || destination.startsWith("841"
 
       if (startBuilding === "8") {
         const directions = {
-          "821": "真っ直ぐ",
-          "831": "右",
-          "832": "左",
-          "841": "真っ直ぐ",
-          "851": "真っ直ぐ",
-          "861": "真っ直ぐ",
-          "871": "右",
-          "872": "左"
-        };
+  "821": "真っ直ぐ",
+  "831": "右",
+  "832": "左",
+  "851": "真っ直ぐ",
+  "861": "真っ直ぐ",
+  "871": "右",
+  "872": "左"
+};
 
-        const direction = directions[destination];
-        if (direction) {
-          const photo = direction === "右"
-            ? "8号館踊り場から右へ.jpeg"
-            : direction === "左"
-              ? "8号館踊り場から左へ.jpeg"
-              : "8号館踊り場から真っ直ぐ.jpeg";
-          addPhoto(route, `${destFloor}の廊下を${direction}へ進みます`, photo);
-        }
+let direction = directions[destination];
+
+if (start === "841-1") {
+  direction = "右";
+} else if (start === "841-3") {
+  direction = "左";
+} else if (start === "841-2" && destination === "841-1") {
+  direction = "左";
+} else if (start === "841-2" && destination === "841-3") {
+  direction = "右";
+} else if (destination === "841-1") {
+  direction = "右";
+} else if (destination === "841-2") {
+  direction = "真っ直ぐ";
+} else if (destination === "841-3") {
+  direction = "左";
+}
+
+if (direction) {
+  const photo = direction === "右"
+    ? "8号館教室出て右へ.jpeg"
+    : direction === "左"
+      ? "8号館教室出て左へ.jpeg"
+      : "8号館教室出て真っ直ぐ.jpeg";
+
+  addPhoto(route, `${destFloor}の廊下を${direction}へ進みます`, photo);
+}
       } else {
         if (["931", "932", "933", "934"].includes(destination)) {
           addPhoto(route, "3階の廊下を進みます", "9号館3階廊下真っ直ぐ(右手側).jpeg");
