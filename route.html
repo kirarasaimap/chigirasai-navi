@@ -494,7 +494,8 @@ function showRoute() {
   const start = document.getElementById("start").value;
   const destination = document.getElementById("destination").value;
   const routeMode = document.getElementById("routeMode").value;
-  const startName =
+  const startName = document.getElementById("start").selectedOptions[0].text;
+const destinationName = document.getElementById("destination").selectedOptions[0].text;
   document.getElementById("start").selectedOptions[0].text;
 
 const destinationName =
