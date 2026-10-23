@@ -753,30 +753,36 @@ route.push("<p><strong>目的地の企画・教室に到着です！</strong></p
   const toiletKey = getToiletKey(start);
   const toilet = toilets[toiletKey];
 
-  let toiletHTML = "";
+ let toiletHTML = "";
 
-  if (toilet) {
-    toiletHTML += `<section class="toilet-info"><h3>🚻 最寄りのお手洗い</h3>`;
+if (toilet) {
+  toiletHTML += `<section class="toilet-info"><h3>🚻 最寄りのお手洗い</h3>`;
 
-    if (toilet.male) {
-      toiletHTML += `<p>🚹 男子トイレ：${toilet.maleLocation || toilet.location || ""}</p>`;
-    }
+  const photos = toiletPhotos[toiletKey] || [];
 
-    if (toilet.female) {
-      toiletHTML += `<p>🚺 女子トイレ：${toilet.femaleLocation || toilet.location || ""}</p>`;
-    }
+  photos.forEach((photo, index) => {
+    toiletHTML += `<div class="toilet-photo-item">`;
+    toiletHTML += `<img class="route-photo" src="./${photo}" alt="お手洗いの写真">`;
 
-    if (toilet.multipurpose) {
-      toiletHTML += `<p>♿ 多目的トイレ：${toilet.multipurposeLocation || toilet.location || ""}</p>`;
-    }
+    if (index === 0) {
+      if (toilet.male) {
+        toiletHTML += `<p>🚹 男子トイレ：${toilet.maleLocation || toilet.location || ""}</p>`;
+      }
 
-    const photos = toiletPhotos[toiletKey] || [];
-    photos.forEach(photo => {
-      toiletHTML += `<img class="route-photo" src="./${photo}" alt="お手洗いの写真">`;
-    });
+      if (toilet.female) {
+        toiletHTML += `<p>🚺 女子トイレ：${toilet.femaleLocation || toilet.location || ""}</p>`;
+      }
+    }
 
-    toiletHTML += `</section>`;
-  }
+    if (index === 1 && toilet.multipurpose) {
+      toiletHTML += `<p>♿ 多目的トイレ：${toilet.multipurposeLocation || toilet.location || ""}</p>`;
+    }
+
+    toiletHTML += `</div>`;
+  });
+
+  toiletHTML += `</section>`;
+}
 
   result.innerHTML =
   `<div class="route-summary">
