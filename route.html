@@ -4,202 +4,234 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>行き方を探す｜東京福祉大学 学祭</title>
-  <style>
-    * { box-sizing: border-box; }
-
-    body {
-      font-family: sans-serif;
-      margin: 0;
-      padding: 16px;
-      background: #f7f7f7;
-      color: #333;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: auto;
-    }
-
-    .top-header {
-      max-width: 600px;
-      margin: 0 auto 24px;
-      padding: 8px 0;
-    }
-
-    .top-header h1 {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 0;
-      font-size: clamp(20px, 5.5vw, 30px);
-      white-space: nowrap;
-    }
-
-    .site-logo {
-      width: 58px;
-      height: 58px;
-      object-fit: contain;
-      flex-shrink: 0;
-    }
-
-    .page-title {
-      margin: 0 0 24px;
-      font-size: 25px;
-    }
-
-    .step-box {
-      background: #fff;
-      border: 1px solid #e5e5e5;
-      border-radius: 14px;
-      padding: 16px;
-      margin: 12px 0;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    }
-
-    .step-title {
-      font-size: 17px;
-      font-weight: bold;
-      margin-bottom: 12px;
-    }
-
-    select {
-      width: 100%;
-      padding: 13px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      background: white;
-      color: #333;
-    }
-
-    button {
-      width: 100%;
-      padding: 15px;
-      border: none;
-      border-radius: 10px;
-      background: #333;
-      color: white;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 8px;
-    }
-
-    button:hover {
-      opacity: 0.85;
-    }
-
-    #routeResult {
-      margin-top: 25px;
-    }
-
-    .route-summary,
-    .route-box {
-      background: #fff;
-      border: 1px solid #e5e5e5;
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 18px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    }
-
-    .route-summary p {
-      margin: 8px 0;
-      font-size: 16px;
-      font-weight: bold;
-      overflow-wrap: anywhere;
-    }
-
-    .route-summary p:first-child::before {
-      content: "● ";
-      color: #2e9d59;
-    }
-
-    .route-summary p:last-child::before {
-      content: "● ";
-      color: #df5252;
-    }
-
-    .route-step {
-      padding: 15px 0;
-      border-bottom: 1px solid #eee;
-    }
-
-    .route-step:last-child {
-      border-bottom: none;
-    }
-
-    .route-step h3 {
-      font-size: 16px;
-      margin: 0 0 8px;
-    }
-
-    .route-step p {
-      line-height: 1.6;
-      margin: 8px 0;
-    }
-
-    .route-photo {
-      width: 170px;
-      max-width: 100%;
-      height: auto;
-      object-fit: contain;
-      display: block;
-      margin: 10px 0 15px;
-      border-radius: 8px;
-    }
-
-    .route-arrow {
-      text-align: center;
-      font-size: 28px;
-      color: #888;
-      margin: 8px 0;
-      font-weight: bold;
-    }
-
-    .toilet-info {
-      margin-top: 20px;
-      padding: 18px;
-      background: #fff;
-      border-radius: 15px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    }
-
-    .toilet-info h3 {
-      margin-top: 0;
-    }
-
-    .toilet-photo-item {
-      margin-bottom: 18px;
-    }
-
-    .toilet-photo-item p {
-      margin: 6px 0 12px;
-      font-size: 15px;
-      line-height: 1.6;
-    }
-
-    @media (max-width: 380px) {
-      body {
-        padding: 12px;
-      }
-
-      .site-logo {
-        width: 48px;
-        height: 48px;
-      }
-
-      .top-header h1 {
-        gap: 7px;
-      }
-    }
-
-    header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+<style>
+* {
+  box-sizing: border-box;
 }
-  </style>
+
+body {
+  font-family: "Yu Gothic", "Meiryo", sans-serif;
+  margin: 0;
+  padding: 16px;
+  color: #f5f3ff;
+  background:
+    radial-gradient(circle at 15% 10%, #25477b 0, transparent 28%),
+    radial-gradient(circle at 90% 35%, #29285c 0, transparent 30%),
+    linear-gradient(160deg, #071329, #101e40 55%, #171633);
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+}
+
+.top-header {
+  max-width: 600px;
+  margin: 0 auto 28px;
+  padding: 12px 0 20px;
+  border-bottom: 1px solid rgba(224, 207, 164, 0.4);
+}
+
+.top-header h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 0;
+  font-size: clamp(20px, 5.5vw, 30px);
+  white-space: nowrap;
+  color: #fff8e9;
+  text-shadow: 0 0 18px rgba(125, 170, 255, 0.45);
+}
+
+.site-logo {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+  flex-shrink: 0;
+  border-radius: 10px;
+}
+
+.page-title {
+  margin: 0 0 24px;
+  font-size: 25px;
+  color: #fff2d5;
+  text-shadow: 0 0 16px rgba(149, 180, 255, 0.45);
+}
+
+.step-box {
+  background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.055));
+  border: 1px solid rgba(205, 219, 255, 0.25);
+  border-radius: 18px;
+  padding: 18px;
+  margin: 14px 0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px);
+}
+
+.step-title {
+  font-size: 17px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #f6dca1;
+}
+
+select {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  border: 1px solid #b9c9eb;
+  border-radius: 10px;
+  background: #f8f9ff;
+  color: #17213d;
+}
+
+button {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid #f1d49a;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #e7d19b, #b9c9f7 55%, #8ca9e8);
+  color: #111d3a;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  box-shadow: 0 5px 18px rgba(104, 142, 220, 0.25);
+  transition: transform 0.2s, filter 0.2s;
+}
+
+button:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+#routeResult {
+  margin-top: 25px;
+}
+
+.route-summary,
+.route-box {
+  background: rgba(255, 255, 255, 0.96);
+  color: #17213d;
+  border: 1px solid #cbd7f0;
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.route-summary p {
+  margin: 8px 0;
+  font-size: 16px;
+  font-weight: bold;
+  overflow-wrap: anywhere;
+}
+
+.route-summary p:first-child::before {
+  content: "● ";
+  color: #318b70;
+}
+
+.route-summary p:last-child::before {
+  content: "● ";
+  color: #c44e66;
+}
+
+.route-step {
+  padding: 15px 0;
+  border-bottom: 1px solid #e2e7f2;
+}
+
+.route-step:last-child {
+  border-bottom: none;
+}
+
+.route-step h3 {
+  display: inline-block;
+  font-size: 15px;
+  margin: 0 0 8px;
+  padding: 6px 11px;
+  border-radius: 7px;
+  background: #e8edfb;
+  color: #263e70;
+}
+
+.route-step p {
+  line-height: 1.8;
+  margin: 8px 0;
+}
+
+.route-photo {
+  width: 220px;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin: 12px 0 16px;
+  border-radius: 12px;
+  border: 1px solid #d5dced;
+  box-shadow: 0 4px 12px rgba(25, 40, 75, 0.14);
+}
+
+.route-arrow {
+  text-align: center;
+  font-size: 28px;
+  color: #e6d19d;
+  margin: 8px 0;
+  font-weight: bold;
+}
+
+.toilet-info {
+  margin-top: 20px;
+  padding: 18px;
+  color: #17213d;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid #cbd7f0;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.toilet-info h3 {
+  margin-top: 0;
+  color: #263e70;
+}
+
+.toilet-photo-item {
+  margin-bottom: 18px;
+}
+
+.toilet-photo-item p {
+  margin: 6px 0 12px;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+@media (max-width: 380px) {
+  body {
+    padding: 12px;
+  }
+
+  .site-logo {
+    width: 48px;
+    height: 48px;
+  }
+
+  .top-header h1 {
+    gap: 7px;
+    font-size: 20px;
+  }
+
+  .page-title {
+    font-size: 22px;
+  }
+
+  .step-box {
+    padding: 14px;
+  }
+}
+</style>
 </head>
 
 <body>
