@@ -544,11 +544,10 @@
         return;
       }
 
-      if (startSelect.selectedIndex === destinationSelect.selectedIndex &&
-          startName === destinationName) {
-        alert("出発地と目的地が同じだよ。別の場所を選んでね！");
-        return;
-      }
+      if (start === destination && startName === destinationName) {
+  alert("出発地と目的地が同じだよ。別の場所を選んでね！");
+  return;
+}
 
       const isBarrierFree = routeMode === "barrierfree";
       const startBuilding = getBuilding(start);
