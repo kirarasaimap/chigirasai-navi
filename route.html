@@ -313,6 +313,48 @@ body {
 
   background-attachment: fixed;
 }
+
+  /* 星のきらめきと、さりげない光 */
+body {
+  position: relative;
+  isolation: isolate;
+}
+
+body::before {
+  content: "✦     ·        ✧          ·      ✦";
+  position: fixed;
+  top: 12%;
+  left: 3%;
+  width: 94%;
+  color: rgba(255, 239, 190, 0.65);
+  font-size: 19px;
+  letter-spacing: 12px;
+  line-height: 4;
+  text-align: center;
+  pointer-events: none;
+  z-index: -1;
+  text-shadow: 0 0 12px rgba(180, 207, 255, 0.8);
+}
+
+/* カードのふちをほんのり光らせる */
+.step-box {
+  border-color: rgba(179, 203, 255, 0.45);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.025),
+    0 0 18px rgba(105, 151, 235, 0.12);
+}
+
+/* ボタンに星明かりのような輝き */
+button {
+  box-shadow:
+    0 0 14px rgba(139, 177, 255, 0.22),
+    0 5px 18px rgba(0, 0, 0, 0.18);
+}
+
+/* 見出しに淡い光 */
+.page-title {
+  text-shadow: 0 0 16px rgba(159, 190, 255, 0.5);
+}
 </style>
 </head>
 
