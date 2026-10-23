@@ -280,6 +280,39 @@ button:hover {
     center;
 }
 
+  /* 星と星座を背景に追加 */
+body {
+  background-image:
+    /* 小さな星 */
+    radial-gradient(circle, #fff4c7 1px, transparent 1.5px),
+    radial-gradient(circle, #b9d4ff 1px, transparent 1.5px),
+
+    /* ときどき大きく光る星 */
+    radial-gradient(circle, #fff4d6 2px, transparent 3px),
+
+    /* 背景の星空カラー */
+    radial-gradient(ellipse at 10% 20%, #203d70 0%, transparent 45%),
+    radial-gradient(ellipse at 90% 70%, #29285c 0%, transparent 40%),
+    linear-gradient(160deg, #071329, #101e40 55%, #171633);
+
+  background-size:
+    83px 97px,
+    127px 113px,
+    173px 151px,
+    auto,
+    auto,
+    auto;
+
+  background-position:
+    10px 15px,
+    45px 60px,
+    80px 30px,
+    center,
+    center,
+    center;
+
+  background-attachment: fixed;
+}
 </style>
 </head>
 
