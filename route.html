@@ -1,805 +1,698 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>行き方を探す｜東京福祉大学 学祭</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>行き方を探す｜東京福祉大学 学祭</title>
+  <style>
+    * { box-sizing: border-box; }
 
-  <style>
-    body {
-      font-family: sans-serif;
-      margin: 0;
-      padding: 20px;
-      background: #f7f7f7;
-      color: #333;
-    }
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 16px;
+      background: #f7f7f7;
+      color: #333;
+    }
 
-    .container {
-      max-width: 600px;
-      margin: auto;
-    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+    }
 
-    h1 {
-    text-align: left;
-    margin-top: 0;
-    margin-bottom: 30px;
-   }
+    .top-header {
+      max-width: 600px;
+      margin: 0 auto 24px;
+      padding: 8px 0;
+    }
 
-    .step-box {
-      background: white;
-      padding: 20px;
-      margin-bottom: 20px;
-      border-radius: 15px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
+    .top-header h1 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0;
+      font-size: clamp(20px, 5.5vw, 30px);
+      white-space: nowrap;
+    }
 
-    .step-title {
-      font-weight: bold;
-      font-size: 18px;
-      margin-bottom: 12px;
-    }
+    .site-logo {
+      width: 58px;
+      height: 58px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
 
-    select {
-      width: 100%;
-      padding: 13px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      background: white;
-    }
+    .page-title {
+      margin: 0 0 24px;
+      font-size: 25px;
+    }
 
-    button {
-      width: 100%;
-      padding: 15px;
-      border: none;
-      border-radius: 10px;
-      background: #333;
-      color: white;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+    .step-box {
+      background: #fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 14px;
+      padding: 16px;
+      margin: 12px 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
 
-    button:hover {
-      opacity: 0.85;
-    }
+    .step-title {
+      font-size: 17px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
 
-    #routeResult {
-      margin-top: 25px;
-    }
+    select {
+      width: 100%;
+      padding: 13px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: white;
+      color: #333;
+    }
 
-    .route-box {
-      background: white;
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
+    button {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      background: #333;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 8px;
+    }
 
-    .route-step {
-      padding: 15px 0;
-      border-bottom: 1px solid #eee;
-    }
+    button:hover {
+      opacity: 0.85;
+    }
 
-    .route-step:last-child {
-      border-bottom: none;
-    }
+    #routeResult {
+      margin-top: 25px;
+    }
 
-    .route-step strong {
-      display: block;
-      margin-bottom: 5px;
-    }
+    .route-summary,
+    .route-box {
+      background: #fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
 
-    .toilet-box {
-      margin-top: 20px;
-      padding: 18px;
-      background: #fff;
-      border-radius: 15px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
+    .route-summary p {
+      margin: 8px 0;
+      font-size: 16px;
+      font-weight: bold;
+      overflow-wrap: anywhere;
+    }
 
-   .route-photo {
-  width: 170px !important;
-  max-width:100% !important;
-  height: auto !important;
-  object-fit: contain;
-  display: block;
-  margin: 10px 0 15px;
-}
+    .route-summary p:first-child::before {
+      content: "● ";
+      color: #2e9d59;
+    }
 
-  #routeResult img.route-photo,
-#routeResult .route-photo {
-  width: 170px !important;
-  max-width: 170px !important;
-  height: auto !important;
-  object-fit: contain;
-  display: block;
-  margin: 10px 0 15px;
-}
-      
-.photo-placeholder {
-  ;
-  height: 180px;
-  background: #eeeeee;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #777;
-  margin: 10px 0 15px;
-}
-  .site-logo {
-  width: 62px;
-  height: 62px;
-  object-fit: contain;
-  vertical-align: middle;
-}
-  .top-header {
-  padding: 10px !important;
-  margin: 0 !important;
-}
+    .route-summary p:last-child::before {
+      content: "● ";
+      color: #df5252;
+    }
 
-.top-header h1 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin: 0 !important;
-  padding: 0 !important;
-  text-align: left;
-}
- .top-header {
-   !important;
-  padding: 8px !important;
-  margin: 0 !important;
-  box-sizing: border-box;
-}
+    .route-step {
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+    }
 
-.top-header h1 {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: flex-start !important;
-  gap: 8px !important;
-   !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  text-align: left !important;
-}
+    .route-step:last-child {
+      border-bottom: none;
+    }
 
-.top-header h1 img {
-  display: block !important;
-  width: 62px !important;
-  height: 62px !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  flex-shrink: 0;
-}
- .top-header h1 {
-  white-space: nowrap !important;
-  flex-wrap: nowrap !important;
-  font-size: 28px !important;
-  gap: 8px !important;
-}
+    .route-step h3 {
+      font-size: 16px;
+      margin: 0 0 8px;
+    }
 
-.top-header h1 img {
-  width: 62px !important;
-  height: 62px !important;
-  flex-shrink: 0 !important;
-}
+    .route-step p {
+      line-height: 1.6;
+      margin: 8px 0;
+    }
 
-.top-header h1 span {
-  white-space: nowrap !important;
-  flex-shrink: 0 !important;F
-}
- .top-header h1 {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 10px !important;
-  width: 100% !important;
-  font-size: clamp(20px, 5.5vw, 32px) !important;
-  white-space: nowrap !important;
-  text-align: left !important;
-}
+    .route-photo {
+      width: 170px;
+      max-width: 100%;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      margin: 10px 0 15px;
+      border-radius: 8px;
+    }
 
-.top-header h1 img {
-  width: 62px !important;
-  height: 62px !important;
-  object-fit: contain;
-  flex-shrink: 0 !important;
-}
+    .route-arrow {
+      text-align: center;
+      font-size: 28px;
+      color: #888;
+      margin: 8px 0;
+      font-weight: bold;
+    }
 
-.top-header h1 span {
-  white-space: nowrap !important;
-  font-size: inherit !important;
-}
-　
-　.route-arrow {
-  text-align: center;
-  font-size: 28px;
-  color: #888;
-  margin: 8px 0;
-  font-weight: bold;
-}
+    .toilet-info {
+      margin-top: 20px;
+      padding: 18px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
 
-.step-box {
-  background: #fff;
-  border: 1px solid #e5e5e5;
-  border-radius: 14px;
-  padding: 16px;
-  margin: 12px 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-}
+    .toilet-info h3 {
+      margin-top: 0;
+    }
 
-.step-title {
-  font-size: 17px;
-  font-weight: bold;
-  margin-bottom: 12px;
-  color: #333;
-}
+    .toilet-photo-item {
+      margin-bottom: 18px;
+    }
 
-.route-arrow {
-  text-align: center;
-  font-size: 28px;
-  color: #888;
-  margin: 8px 0;
-  font-weight: bold;
-}
+    .toilet-photo-item p {
+      margin: 6px 0 12px;
+      font-size: 15px;
+      line-height: 1.6;
+    }
 
-  .route-summary {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 14px;
-  padding: 16px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
+    @media (max-width: 380px) {
+      body {
+        padding: 12px;
+      }
 
-.route-summary p {
-  margin: 8px 0;
-  font-size: 16px;
-  font-weight: bold;
-  color: #333;
-}
+      .site-logo {
+        width: 48px;
+        height: 48px;
+      }
 
-.route-summary p:first-child::before {
-  content: "● ";
-  color: #2e9d59;
-}
-
-.route-summary p:last-child::before {
-  content: "● ";
-  color: #df5252;
-}
-  </style>   
+      .top-header h1 {
+        gap: 7px;
+      }
+    }
+  </style>
 </head>
 
-  <body>
-  <header class="top-header">
-  <h1>
-    <img src="./kirarasai-logo.jpeg" alt="千輝祭ロゴ">
-    <span>千輝祭マップ</span>
-  </h1>
-</header>
-<div class="container">
+<body>
+  <header class="top-header">
+    <h1>
+      <img class="site-logo" src="./kirarasai-logo.jpeg" alt="千輝祭ロゴ">
+      <span>千輝祭マップ</span>
+    </h1>
+  </header>
 
-  <h1>📍 行き方を探す</h1>
+  <main class="container">
+    <h1 class="page-title">📍 行き方を探す</h1>
 
-  <!-- 現在地 -->
-  <div class="step-box">
-    <div class="step-title">STEP 1　出発地</div>
+    <div class="step-box">
+      <div class="step-title">STEP 1　出発地</div>
 
-    <select id="start">
-      <option value="">出発地を選択してください</option>
+      <select id="start">
+        <option value="">出発地を選択してください</option>
 
-      <optgroup label="9号館">
-      <option value="9-1">9号館入口</option>
-      <option value="9-1">受付</option>
-      <option value="9-1">インフォメーション</option>
-      <option value="901">出張千輝祭ラジオ</option>
-      <option value="901">千輝祭ミュージックフェス</option>
-      <option value="901">学部対抗クイズ</option>
-      <option value="901">世代を超える！イントロドン</option>
-      <option value="901">ビンゴ大会</option>
-      <option value="9-1">スペシャルティコーヒーの提供と豆販売</option>
-      <option value="9-1">出張こみCafe ～羊毛フェルトマスコットとお菓子の販売～</option>
-      <option value="9-2-left">休憩コーナー</option>
-      <option value="9-2-right">保育児童学部の魅力を留学生が描いてみた</option>
-      <option value="931">出張！心理学入門</option>
-      <option value="932">入学相談</option>
-      <option value="933">つくってあそぼ♪クレーンゲーム</option>
-      <option value="933">手作り遊び広場</option>
-      <option value="934">出張！王子キャンパス好事研究サークル</option>
-      <option value="942">ココロ･クエスト〜命の木を育てよう〜</option>
-      <option value="952">手縫いでチャレンジ！簡単お手玉講座</option>
-      <option value="952">わらべうた遊び講座</option>
-    　<option value="953">休憩コーナー</option>
-    　<option value="954">(雨天時)巨大ロゴモニュメント・フォトスッポト</option>
-      </optgroup>
+        <optgroup label="9号館">
+          <option value="9-1">9号館入口</option>
+          <option value="9-1">受付</option>
+          <option value="9-1">インフォメーション</option>
+          <option value="901">出張千輝祭ラジオ</option>
+          <option value="901">千輝祭ミュージックフェス</option>
+          <option value="901">学部対抗クイズ</option>
+          <option value="901">世代を超える！イントロドン</option>
+          <option value="901">ビンゴ大会</option>
+          <option value="9-1">スペシャルティコーヒーの提供と豆販売</option>
+          <option value="9-1">出張こみCafe ～羊毛フェルトマスコットとお菓子の販売～</option>
+          <option value="9-2-left">休憩コーナー（9号館2階）</option>
+          <option value="9-2-right">保育児童学部の魅力を留学生が描いてみた</option>
+          <option value="931">出張！心理学入門</option>
+          <option value="932">入学相談</option>
+          <option value="933">つくってあそぼ♪クレーンゲーム</option>
+          <option value="933">手作り遊び広場</option>
+          <option value="934">出張！王子キャンパス好事研究サークル</option>
+          <option value="942">ココロ･クエスト〜命の木を育てよう〜</option>
+          <option value="952">手縫いでチャレンジ！簡単お手玉講座</option>
+          <option value="952">わらべうた遊び講座</option>
+          <option value="953">休憩コーナー（9号館5階）</option>
+          <option value="954">(雨天時)巨大ロゴモニュメント・フォトスポット</option>
+        </optgroup>
 
-     <optgroup label="8号館">
-      <option value="8-1">8号館入口</option>
-    　<option value="8-1">巨大ロゴモニュメント・フォトスッポト</option>
-      <option value="8-1">障害者施設製品販売～僕らが描いたもの～</option>
-      <option value="8-1">着物生地を再利用した、作品の展示</option>
-      <option value="821">秋祭り</option>
-      <option value="831">事件ファイル001隠された宝</option>
-      <option value="832">ありがとうを届ける、ほっとメッセージ</option>
-      <option value="841-1">めざせハットトリック！？ダーツ体験！</option>
-      <option value="841-2">リアル人生ゲーム～今日だけ人生やり直せます。～</option>
-      <option value="841-3">あの頃のおつかい</option>
-      <option value="851">ボドゲとレクで遊ぼう！</option>
-      <option value="861">演奏会</option>
-      <option value="871">タイムカプセル・メモリアル企画</option>
-      <option value="871">千輝祭ヒストリー</option>
-    　<option value="872">映画で人々と交流</option>
-      <option value="8-1">喫煙所</option>
-      </optgroup>
+        <optgroup label="8号館">
+          <option value="8-1">8号館入口</option>
+          <option value="8-1">巨大ロゴモニュメント・フォトスポット</option>
+          <option value="8-1">障害者施設製品販売～僕らが描いたもの～</option>
+          <option value="8-1">着物生地を再利用した、作品の展示</option>
+          <option value="821">秋祭り</option>
+          <option value="831">事件ファイル001隠された宝</option>
+          <option value="832">ありがとうを届ける、ほっとメッセージ</option>
+          <option value="841-1">めざせハットトリック！？ダーツ体験！</option>
+          <option value="841-2">リアル人生ゲーム～今日だけ人生やり直せます。～</option>
+          <option value="841-3">あの頃のおつかい</option>
+          <option value="851">ボドゲとレクで遊ぼう！</option>
+          <option value="861">演奏会</option>
+          <option value="871">タイムカプセル・メモリアル企画</option>
+          <option value="871">千輝祭ヒストリー</option>
+          <option value="872">映画で人々と交流</option>
+          <option value="8-1">喫煙所</option>
+        </optgroup>
+      </select>
 
-    </select>
-    <div class="route-arrow">↓</div>
-  </div>
+      <div class="route-arrow">↓</div>
+    </div>
 
+    <div class="step-box">
+      <div class="step-title">STEP 2　目的地</div>
 
-  <!-- 行きたい企画 -->
-  <div class="step-box">
-    <div class="step-title">STEP 2　目的地</div>
+      <select id="destination">
+        <option value="">目的地を選択してください</option>
 
-    <select id="destination">
-      <option value="">目的地を選択してください</option>
+        <optgroup label="9号館">
+          <option value="9-1">9号館入口</option>
+          <option value="9-1">受付</option>
+          <option value="9-1">インフォメーション</option>
+          <option value="901">出張千輝祭ラジオ</option>
+          <option value="901">千輝祭ミュージックフェス</option>
+          <option value="901">学部対抗クイズ</option>
+          <option value="901">世代を超える！イントロドン</option>
+          <option value="901">ビンゴ大会</option>
+          <option value="9-1">スペシャルティコーヒーの提供と豆販売</option>
+          <option value="9-1">出張こみCafe ～羊毛フェルトマスコットとお菓子の販売～</option>
+          <option value="9-2-left">休憩コーナー（9号館2階）</option>
+          <option value="9-2-right">保育児童学部の魅力を留学生が描いてみた</option>
+          <option value="931">出張！心理学入門</option>
+          <option value="932">入学相談</option>
+          <option value="933">つくってあそぼ♪クレーンゲーム</option>
+          <option value="933">手作り遊び広場</option>
+          <option value="934">出張！王子キャンパス好事研究サークル</option>
+          <option value="942">ココロ･クエスト〜命の木を育てよう〜</option>
+          <option value="952">手縫いでチャレンジ！簡単お手玉講座</option>
+          <option value="952">わらべうた遊び講座</option>
+          <option value="953">休憩コーナー（9号館5階）</option>
+          <option value="954">(雨天時)巨大ロゴモニュメント・フォトスポット</option>
+        </optgroup>
 
-      <optgroup label="9号館">
-      <option value="9-1">9号館入口</option>
-      <option value="9-1">受付</option>
-      <option value="9-1">インフォメーション</option>
-      <option value="901">出張千輝祭ラジオ</option>
-      <option value="901">千輝祭ミュージックフェス</option>
-      <option value="901">学部対抗クイズ</option>
-      <option value="901">世代を超える！イントロドン</option>
-      <option value="901">ビンゴ大会</option>
-   　 <option value="9-1">スペシャルティコーヒーの提供と豆販売</option>
-      <option value="9-1">出張こみCafe ～羊毛フェルトマスコットとお菓子の販売～</option>
-      <option value="9-2">休憩コーナー</option>
-      <option value="9-2">保育児童学部の魅力を留学生が描いてみた</option>
-      <option value="931">出張！心理学入門</option>
-      <option value="932">入学相談</option>
-      <option value="933">つくってあそぼ♪クレーンゲーム</option>
-      <option value="933">手作り遊び広場</option>
-      <option value="934">出張！王子キャンパス好事研究サークル</option>
-      <option value="942">ココロ･クエスト〜命の木を育てよう〜</option>
-      <option value="952">手縫いでチャレンジ！簡単お手玉講座</option>
-      <option value="952">わらべうた遊び講座</option>
-    　<option value="953">休憩コーナー</option>
-    　<option value="954">(雨天時)巨大モニュメント・フォットスッポト</option>
-      </optgroup>
+        <optgroup label="8号館">
+          <option value="8-1">8号館入口</option>
+          <option value="8-1">巨大ロゴモニュメント・フォトスポット</option>
+          <option value="8-1">障害者施設製品販売～僕らが描いたもの～</option>
+          <option value="8-1">着物生地を再利用した、作品の展示</option>
+          <option value="821">秋祭り</option>
+          <option value="831">事件ファイル001隠された宝</option>
+          <option value="832">ありがとうを届ける、ほっとメッセージ</option>
+          <option value="841-1">めざせハットトリック！？ダーツ体験！</option>
+          <option value="841-2">リアル人生ゲーム～今日だけ人生やり直せます。～</option>
+          <option value="841-3">あの頃のおつかい</option>
+          <option value="851">ボドゲとレクで遊ぼう！</option>
+          <option value="861">演奏会</option>
+          <option value="871">タイムカプセル・メモリアル企画</option>
+          <option value="871">千輝祭ヒストリー</option>
+          <option value="872">映画で人々と交流</option>
+          <option value="8-1">喫煙所</option>
+        </optgroup>
+      </select>
+    </div>
 
-      <optgroup label="8号館">
-      <option value="8-1">8号館入口</option>
-    　<option value="8-1">巨大ロゴモニュメント・フォトスッポト</option>
-      <option value="8-1">障害者施設製品販売～僕らが描いたもの～</option>
-      <option value="8-1">着物生地を再利用した、作品の展示</option>
-      <option value="821">秋祭り</option>
-      <option value="831">事件ファイル001隠された宝</option>
-      <option value="832">ありがとうを届ける、ほっとメッセージ</option>
-      <option value="841-1">めざせハットトリック！？ダーツ体験！</option>
-      <option value="841-2">リアル人生ゲーム～今日だけ人生やり直せます。～</option>
-      <option value="841-3">あの頃のおつかい</option>
-      <option value="851">ボドゲとレクで遊ぼう！</option>
-      <option value="861">演奏会</option>
-      <option value="871">タイムカプセル・メモリアル企画</option>
-      <option value="871">千輝祭ヒストリー</option>
-      <option value="872">映画で人々と交流</option>
-      <option value="8-1">喫煙所</option>
+    <div class="step-box">
+      <div class="step-title">STEP 3　ルートタイプ</div>
+      <select id="routeMode">
+        <option value="normal">通常ルート</option>
+        <option value="barrierfree">♿ バリアフリールート</option>
+      </select>
+    </div>
 
-      </optgroup>
+    <button type="button" id="showRouteButton">ここまでの行き方を見る</button>
+    <div id="routeResult" aria-live="polite"></div>
+  </main>
 
-    </select>
-  </div>
+  <script>
+    "use strict";
 
- <div class="step-box">
-  <div class="step-title">STEP 3　ルートタイプ</div>
+    const toilets = {
+      "9-b1": {
+        location: "9号館B1階 エレベーターを出て左側",
+        male: true, female: true, multipurpose: false
+      },
+      "901": {
+        location: "9号館B1階 エレベーターを出て左側",
+        male: true, female: true, multipurpose: false
+      },
+      "9-1": {
+        male: true,
+        maleLocation: "9号館1階 エレベーターを出て左側",
+        female: true,
+        femaleLocation: "9号館1階 エレベーターを出て左側",
+        multipurpose: true,
+        multipurposeLocation: "9号館1階 エレベーターを出て右側"
+      },
+      "9-2": {
+        location: "9号館2階 エレベーターを出て左側",
+        male: true, female: true, multipurpose: false
+      },
+      "9-3": {
+        male: true,
+        maleLocation: "9号館3階 エレベーターを出て左側",
+        female: true,
+        femaleLocation: "9号館3階 エレベーターを出て右側",
+        multipurpose: false
+      },
+      "9-4": {
+        location: "9号館4階 エレベーターを出て左側",
+        male: true, female: false, multipurpose: false
+      },
+      "9-5": {
+        location: "9号館5階 エレベーターを出て右側",
+        male: false, female: true, multipurpose: false
+      },
+      "8-1": {
+        location: "8号館1階 自販機前",
+        male: false, female: false, multipurpose: true,
+        multipurposeLocation: "8号館1階 自販機前"
+      },
+      "8-2": { location: "8号館2階 教室前", male: true, female: true, multipurpose: false },
+      "8-3": { location: "8号館3階 教室前", male: true, female: true, multipurpose: false },
+      "8-4": { location: "8号館4階 教室前", male: true, female: true, multipurpose: false },
+      "8-5": { location: "8号館5階 教室前", male: true, female: true, multipurpose: false },
+      "8-6": { location: "8号館6階 教室前", male: true, female: true, multipurpose: false },
+      "8-7": { location: "8号館7階 教室前", male: true, female: true, multipurpose: false }
+    };
 
-  <select id="routeMode">
-    <option value="normal">通常ルート</option>
-    <option value="barrierfree">♿ バリアフリールート</option>
-  </select>
-</div>
+    const toiletPhotos = {
+      "9-b1": ["9号館男女トイレ.jpeg"],
+      "901": ["9号館男女トイレ.jpeg"],
+      "9-1": ["9号館男女トイレ.jpeg", "9号館多目的トイレ.jpeg"],
+      "9-2": ["9号館男女トイレ.jpeg"],
+      "9-3": ["9号館男子トイレ.jpeg", "9号館女子トイレ.jpeg"],
+      "9-4": ["9号館男子トイレ.jpeg"],
+      "9-5": ["9号館女子トイレ.jpeg"],
+      "8-1": ["8号館多目的トイレ.jpeg"],
+      "8-2": ["8号館男女トイレ.jpeg"],
+      "8-3": ["8号館男女トイレ.jpeg"],
+      "8-4": ["8号館男女トイレ.jpeg"],
+      "8-5": ["8号館男女トイレ.jpeg"],
+      "8-6": ["8号館男女トイレ.jpeg"],
+      "8-7": ["8号館男女トイレ.jpeg"]
+    };
 
+    function floorNumber(floor) {
+      return floor === "B1階" ? 0 : Number(String(floor).replace("階", ""));
+    }
 
-  <!-- ルート表示ボタン -->
-  <button type="button" onclick="showRoute();">
-  ここまでの行き方を見る
-</button>
-   
-  <!-- ルート結果 -->
-  <div id="routeResult"></div>
+    function getFloor(value) {
+      if (value === "901") return "B1階";
+      if (["9-1", "8-1"].includes(value)) return "1階";
+      if (["9-2", "9-2-left", "9-2-right", "821"].includes(value)) return "2階";
+      if (["9-3", "931", "932", "933", "934", "831", "832"].includes(value)) return "3階";
+      if (["9-4", "942", "841-1", "841-2", "841-3"].includes(value)) return "4階";
+      if (["9-5", "952", "953", "954", "851"].includes(value)) return "5階";
+      if (value === "861") return "6階";
+      if (["871", "872"].includes(value)) return "7階";
+      return "1階";
+    }
 
+    function getBuilding(value) {
+      return value.startsWith("8") ? "8" : "9";
+    }
 
-  <!-- お手洗い -->
-</div>
-   
+    function getToiletKey(value) {
+      if (value === "901") return "901";
+      if (["931", "932", "933", "934"].includes(value)) return "9-3";
+      if (["941", "942"].includes(value)) return "9-4";
+      if (["952", "953", "954"].includes(value)) return "9-5";
+      if (["9-2-left", "9-2-right", "9-2"].includes(value)) return "9-2";
+      if (value === "821") return "8-2";
+      if (["831", "832"].includes(value)) return "8-3";
+      if (["841-1", "841-2", "841-3"].includes(value)) return "8-4";
+      if (value === "851") return "8-5";
+      if (value === "861") return "8-6";
+      if (["871", "872"].includes(value)) return "8-7";
+      if (value === "9-1") return "9-1";
+      if (value === "8-1") return "8-1";
+      return value;
+    }
 
-<script>
-s = {
-  "9-b1": {
-    location: "9号館B1階 エレベーター出て左側",
-    male: true, female: true, multipurpose: false
-  },
-  "901": {
-    location: "9号館B1階 エレベーター出て左側",
-    male: true, female: true, multipurpose: false
-  },
-  "9-1": {
-    male: true, maleLocation: "9号館1階 エレベーター出て左側",
-    female: true, femaleLocation: "9号館1階 エレベーター出て左側",
-    multipurpose: true,
-    multipurposeLocation: "9号館1階 エレベーター出て右側"
-  },
-  "9-2": {
-    location: "9号館2階 エレベーター出て左側",
-    male: true, female: true, multipurpose: false
-  },
-  "9-3": {
-    male: true, maleLocation: "9号館3階 エレベーター出て左側",
-    female: true, femaleLocation: "9号館3階 エレベーター出て右側",
-    multipurpose: false
-  },
-  "9-4": {
-    location: "9号館4階 エレベーター出て左側",
-    male: true, female: false, multipurpose: false
-  },
-  "9-5": {
-    location: "9号館5階 エレベーター出て右側",
-    male: false, female: true, multipurpose: false
-  },
-  "8-1": {
-    location: "8号館1階 自販機前",
-    male: false, female: false, multipurpose: true,
-    multipurposeLocation: "8号館1階 自販機前"
-  },
-  "8-2": {
-    location: "8号館2階 教室前",
-    male: true, female: true, multipurpose: false
-  },
-  "8-3": {
-    location: "8号館3階 教室前",
-    male: true, female: true, multipurpose: false
-  },
-  "8-4": {
-    location: "8号館4階 教室前",
-    male: true, female: true, multipurpose: false
-  },
-  "8-5": {
-    location: "8号館5階 教室前",
-    male: true, female: true, multipurpose: false
-  },
-  "8-6": {
-    location: "8号館6階 教室前",
-    male: true, female: true, multipurpose: false
-  },
-  "8-7": {
-    location: "8号館7階 教室前",
-    male: true, female: true, multipurpose: false
-  }
-};
+    function addPhoto(route, text, photo) {
+      route.push(`<p>${text}</p><img class="route-photo" src="./${photo}" alt="${text}">`);
+    }
 
-const toiletPhotos = {
-  "9-b1": ["9号館男女トイレ.jpeg"],
-  "901": ["9号館男女トイレ.jpeg"],
-  "9-1": ["9号館男女トイレ.jpeg", "9号館多目的トイレ.jpeg"],
-  "9-2": ["9号館男女トイレ.jpeg"],
-  "9-3": ["9号館男子トイレ.jpeg", "9号館女子トイレ.jpeg"],
-  "9-4": ["9号館男子トイレ.jpeg"],
-  "9-5": ["9号館女子トイレ.jpeg"],
-  "8-1": ["8号館多目的トイレ.jpeg"],
-  "8-2": ["8号館男女トイレ.jpeg"],
-  "8-3": ["8号館男女トイレ.jpeg"],
-  "8-4": ["8号館男女トイレ.jpeg"],
-  "8-5": ["8号館男女トイレ.jpeg"],
-  "8-6": ["8号館男女トイレ.jpeg"],
-  "8-7": ["8号館男女トイレ.jpeg"]
-};
+    function addEightBuildingStairs(route, fromFloor, toFloor) {
+      const from = floorNumber(fromFloor);
+      const to = floorNumber(toFloor);
+      if (from === to) return;
 
-function showRoute() {
-
-  const start = document.getElementById("start").value;
-  const destination = document.getElementById("destination").value;
-  const routeMode = document.getElementById("routeMode").value;
-  const result = document.getElementById("routeResult");
-
-  const startName = document.getElementById("start").selectedOptions[0].text;
-  const destinationName = document.getElementById("destination").selectedOptions[0].text;
-
-  if (!start || !destination) {
-    alert("現在地と行きたい企画を選んでね！");
-    return;
-  }
-
-  const isBarrierFree = routeMode === "barrierfree";
-  const startBuilding = start.startsWith("8") || start.startsWith("841") ? "8" : "9";
-const destBuilding = destination.startsWith("8") || destination.startsWith("841") ? "8" : "9";
-
-  function getFloor(value) {
-    if (value === "901") return "B1階";
-    if (["9-1", "8-1"].includes(value)) return "1階";
-    if (["9-2", "9-2-left", "9-2-right", "821"].includes(value)) return "2階";
-    if (["9-3", "931", "932", "933", "934", "831", "832"].includes(value)) return "3階";
-    if (["9-4", "942", "841-1", "841-2", "841-3"].includes(value)) return "4階";
-    if (["9-5", "952", "953", "954", "851"].includes(value)) return "5階";
-    if (value === "861") return "6階";
-    if (["871", "872"].includes(value)) return "7階";
-    return "1階";
-  }
-
-  function getToiletKey(value) {
-    if (value === "901") return "901";
-    if (["931", "932", "933", "934"].includes(value)) return "9-3";
-    if (["941", "942"].includes(value)) return "9-4";
-    if (["952", "953", "954"].includes(value)) return "9-5";
-    if (["9-2-left", "9-2-right"].includes(value)) return "9-2";
-    if (value === "821") return "8-2";
-    if (["831", "832"].includes(value)) return "8-3";
-    if (["841-1", "841-2", "841-3"].includes(value)) return "8-4";
-    if (value === "851") return "8-5";
-    if (value === "861") return "8-6";
-    if (["871", "872"].includes(value)) return "8-7";
-    if (value === "9-1") return "9-1";
-    if (value === "8-1") return "8-1";
-    return value;
-  }
-
-  function floorNumber(floor) {
-    return floor === "B1階" ? 0 : Number(floor.replace("階", ""));
-  }
-
-  function addPhoto(route, text, photo) {
-    route.push(
-      `<p>${text}</p><img class="route-photo" src="./${photo}" alt="${text}">`
-    );
-  }
-
-  function addEightBuildingStairs(route, fromFloor, toFloor) {
-    const from = floorNumber(fromFloor);
-    const to = floorNumber(toFloor);
-
-    if (from === to) return;
-
-    if (from < to) {
-      const photo = from === 1
-        ? "8号館 1階階段上がる.jpeg"
-        : "8号館階段上へ.jpeg";
-      addPhoto(route, `階段で${toFloor}まで上がります`, photo);
-    } else {
-      const photo = from === 7
-        ? "8号館7階階段下へ.jpeg"
-        : "8号館階段下へ.jpeg";
-      addPhoto(route, `階段で${toFloor}まで下ります`, photo);
-    }
-  }
-
-  function addNineBuildingStairs(route, fromFloor, toFloor, target) {
-    const from = floorNumber(fromFloor);
-    const to = floorNumber(toFloor);
-
-    if (from === to) return;
-
-    let side = "右手側";
-    if (["931", "932", "9-2-left"].includes(target)) side = "左手側";
-
-    let photo;
-
-    if (from === 0 && to > from) {
-      photo = side === "左手側"
-        ? "9号館地下から上へ(左手側).jpeg"
-        : "9号館地下から上へ(右手側).jpeg";
-    } else if (from > to) {
-      if (from === 5 &&side === "右手側") {
-        photo = "9号館5階階段下へ(右手側).jpeg";
-      } else if (from === 4) {
-        photo = "9号館4階階段下へ.jpeg";
-      } else {
-        photo = side === "左手側"
-          ? "9号館左手階段下へ.jpeg"
-          : "9号館右手階段下へ.jpeg";
-      }
-    } else {
-      photo = side === "左手側"
-        ? "9号館左手階段上へ.jpeg"
-        : "9号館右手階段上へ.jpeg";
-    }
-
-    addPhoto(
-      route,
-      `階段で${toFloor}まで${from < to ? "上がります" : "下ります"}`,
-      photo
-    );
-  }
-
-  const startFloor = getFloor(start);
-  const destFloor = getFloor(destination);
-  const route = [];
-
-if (startBuilding !== destBuilding) {
-    // 出発地から出発する号館の1階入口へ向かう
-    route.push(
-      `<p>${startFloor}の現在地から${startBuilding}号館の入口へ向かいます。</p>`
-    );
-
-    if (isBarrierFree) {
-      route.push("<p>エレベーターで1階まで移動します。</p>");
-    } else if (startFloor !== "1階") {
-      if (startBuilding === "8") {
-        addEightBuildingStairs(route, startFloor, "1階");
+      if (from < to) {
+        const photo = from === 1
+          ? "8号館 1階階段上がる.jpeg"
+          : "8号館階段上へ.jpeg";
+        addPhoto(route, `階段で${toFloor}まで上がります`, photo);
       } else {
-        addNineBuildingStairs(route, startFloor, "1階", destination);
+        const photo = from === 7
+          ? "8号館7階階段下へ.jpeg"
+          : "8号館階段下へ.jpeg";
+        addPhoto(route, `階段で${toFloor}まで下ります`, photo);
       }
     }
 
-    // 出発する号館を出て、目的の号館へ向かう
-    if (startBuilding === "8") {
-      addPhoto(route, "8号館の入口から外へ出ます", "8号館1階出る.jpeg");
-      addPhoto(route, "外を右へ進みます", "外 右へ(８号館から).jpeg");
-      addPhoto(route, "外を曲がります", "外 曲がる(8号館から).jpeg");
-      addPhoto(route, "外を真っ直ぐ進みます", "外 真っ直ぐ(8号館から).jpeg");
-      addPhoto(route, "9号館の入口へ向かいます", "外 9号館入る(8号館から).jpeg");
-    } else {
-      addPhoto(route, "9号館の入口から外へ出ます", "外 9号館から出る(9号館から).jpeg");
-      addPhoto(route, "外を曲がります", "外 曲がる(9号館から).jpeg");
-      addPhoto(route, "外を真っ直ぐ進みます", "外 真っ直ぐ(９号館から).jpeg");
-      addPhoto(route, "8号館の入口へ向かいます", "外 8号館入り口入る(９号館から).jpeg");
-    }
+    function addNineBuildingStairs(route, fromFloor, toFloor, target) {
+      const from = floorNumber(fromFloor);
+      const to = floorNumber(toFloor);
+      if (from === to) return;
 
-    route.push("<p>目的の号館に到着しました。教室へ向かいます。</p>");
+      const side = ["931", "932", "9-2-left", "9-2"].includes(target)
+        ? "左手側"
+        : "右手側";
 
-    // 目的の号館の1階から目的階へ向かう
-    if (destFloor !== "1階") {
-      if (isBarrierFree) {
-        route.push(`<p>エレベーターで${destFloor}まで移動します。</p>`);
-      } else if (destBuilding === "8") {
-        addEightBuildingStairs(route, "1階", destFloor);
-      } else {
-        addNineBuildingStairs(route, "1階", destFloor, destination);
-      }
-    }
-  } else {
-    // 同じ号館内の移動
-    if (startBuilding === "9" && start === "931" && destination === "934") {
-      route.push("<p>931を出ます。</p>");
-      addPhoto(route, "9号館3階の廊下を真っ直ぐ進みます", "9号館3階廊下真っ直ぐ(左手側).jpeg");
-      addPhoto(route, "934の通路へ進みます", "9号館3階934通路へ.jpeg");
-      addPhoto(route, "934の通路を進みます", "9号館3階934通路行く.jpeg");
+      let photo;
 
-    } else if (startBuilding === "9" && start === "934" && destination === "931") {
-      route.push("<p>934を出ます。</p>");
-      addPhoto(route, "9号館3階の廊下を進みます", "9号館3階934通路行く.jpeg");
-      addPhoto(route, "931の方向へ進みます", "9号館3階934通路へ.jpeg");
-      addPhoto(route, "廊下を進みます", "9号館3階廊下真っ直ぐ(左手側).jpeg");
-
-    } else {
-      // 階が違う場合
-      if (startFloor !== destFloor) {
-        if (isBarrierFree) {
-          route.push(`<p>エレベーターで${destFloor}まで移動します。</p>`);
-        } else if (startBuilding === "8") {
-          addEightBuildingStairs(route, startFloor, destFloor);
+      if (from === 0 && to > from) {
+        photo = side === "左手側"
+          ? "9号館地下から上へ(左手側).jpeg"
+          : "9号館地下から上へ(右手側).jpeg";
+      } else if (from > to) {
+        if (from === 5 && side === "右手側") {
+          photo = "9号館5階階段下へ(右手側).jpeg";
+        } else if (from === 4) {
+          photo = "9号館4階階段下へ.jpeg";
         } else {
-          addNineBuildingStairs(route, startFloor, destFloor, destination);
+          photo = side === "左手側"
+            ? "9号館左手階段下へ.jpeg"
+            : "9号館右手階段下へ.jpeg";
         }
+      } else {
+        photo = side === "左手側"
+          ? "9号館左手階段上へ.jpeg"
+          : "9号館右手階段上へ.jpeg";
       }
 
-      // 8号館内の廊下
-      if (startBuilding === "8") {
-        const directions = {
-          "821": "真っ直ぐ",
-          "831": "右",
-          "832": "左",
-          "851": "真っ直ぐ",
-          "861": "真っ直ぐ",
-          "871": "右",
-          "872": "左"
-        };
+      addPhoto(
+        route,
+        `階段で${toFloor}まで${from < to ? "上がります" : "下ります"}`,
+        photo
+      );
+    }
 
-        let direction = directions[destination];
+    function makeToiletHTML(startValue) {
+      const key = getToiletKey(startValue);
+      const toilet = toilets[key];
+      if (!toilet) return "";
 
-        if (start === "841-1") {
-          direction = "右";
-        } else if (start === "841-3") {
-          direction = "左";
-        } else if (start === "841-2" && destination === "841-1") {
-          direction = "左";
-        } else if (start === "841-2" && destination === "841-3") {
-          direction = "右";
-        } else if (destination === "841-1") {
-          direction = "右";
-        } else if (destination === "841-2") {
-          direction = "真っ直ぐ";
-        } else if (destination === "841-3") {
-          direction = "左";
+      const photos = toiletPhotos[key] || [];
+      let html = `<section class="toilet-info"><h3>🚻 最寄りのお手洗い</h3>`;
+
+      photos.forEach(photo => {
+        html += `<div class="toilet-photo-item">`;
+        html += `<img class="route-photo" src="./${photo}" alt="お手洗いの写真">`;
+
+        if (photo.includes("多目的")) {
+          html += `<p>♿ 多目的トイレ：${toilet.multipurposeLocation || toilet.location || ""}</p>`;
+        } else if (photo.includes("男子")) {
+          if (toilet.male) {
+            html += `<p>🚹 男子トイレ：${toilet.maleLocation || toilet.location || ""}</p>`;
+          }
+        } else if (photo.includes("女子")) {
+          if (toilet.female) {
+            html += `<p>🚺 女子トイレ：${toilet.femaleLocation || toilet.location || ""}</p>`;
+          }
+        } else {
+          if (toilet.male) {
+            html += `<p>🚹 男子トイレ：${toilet.maleLocation || toilet.location || ""}</p>`;
+          }
+          if (toilet.female) {
+            html += `<p>🚺 女子トイレ：${toilet.femaleLocation || toilet.location || ""}</p>`;
+          }
         }
 
-        if (direction) {
-          const photo = direction === "右"
-            ? "8号館教室出て右へ.jpeg"
-            : direction === "左"
-              ? "8号館教室出て左へ.jpeg"
-              : "8号館教室出て真っ直ぐ.jpeg";
+        html += `</div>`;
+      });
 
-          addPhoto(route, `${destFloor}の廊下を${direction}へ進みます`, photo);
+      html += `</section>`;
+      return html;
+    }
+
+    function showRoute() {
+      const startSelect = document.getElementById("start");
+      const destinationSelect = document.getElementById("destination");
+      const start = startSelect.value;
+      const destination = destinationSelect.value;
+      const routeMode = document.getElementById("routeMode").value;
+      const result = document.getElementById("routeResult");
+      const startName = startSelect.selectedOptions[0].text;
+      const destinationName = destinationSelect.selectedOptions[0].text;
+
+      if (!start || !destination) {
+        alert("出発地と目的地を選んでね！");
+        return;
+      }
+
+      if (startSelect.selectedIndex === destinationSelect.selectedIndex &&
+          startName === destinationName) {
+        alert("出発地と目的地が同じだよ。別の場所を選んでね！");
+        return;
+      }
+
+      const isBarrierFree = routeMode === "barrierfree";
+      const startBuilding = getBuilding(start);
+      const destBuilding = getBuilding(destination);
+      const startFloor = getFloor(start);
+      const destFloor = getFloor(destination);
+      const route = [];
+
+      if (startBuilding !== destBuilding) {
+        route.push(`<p>${startName}（${startFloor}）から${startBuilding}号館の入口へ向かいます。</p>`);
+
+        if (isBarrierFree) {
+          route.push("<p>エレベーターで1階まで移動します。</p>");
+        } else if (startFloor !== "1階") {
+          if (startBuilding === "8") {
+            addEightBuildingStairs(route, startFloor, "1階");
+          } else {
+            addNineBuildingStairs(route, startFloor, "1階", start);
+          }
         }
 
+        if (startBuilding === "8") {
+          addPhoto(route, "8号館の入口から外へ出ます", "8号館1階出る.jpeg");
+          addPhoto(route, "外を右へ進みます", "外 右へ(８号館から).jpeg");
+          addPhoto(route, "外を曲がります", "外 曲がる(8号館から).jpeg");
+          addPhoto(route, "外を真っ直ぐ進みます", "外 真っ直ぐ(8号館から).jpeg");
+          addPhoto(route, "9号館の入口へ向かいます", "外 9号館入る(8号館から).jpeg");
+        } else {
+          addPhoto(route, "9号館の入口から外へ出ます", "外 9号館から出る(9号館から).jpeg");
+          addPhoto(route, "外を曲がります", "外 曲がる(9号館から).jpeg");
+          addPhoto(route, "外を真っ直ぐ進みます", "外 真っ直ぐ(９号館から).jpeg");
+          addPhoto(route, "8号館の入口へ向かいます", "外 8号館入り口入る(９号館から).jpeg");
+        }
+
+        route.push(`<p>${destBuilding}号館に到着しました。目的地へ向かいます。</p>`);
+
+        if (destFloor !== "1階") {
+          if (isBarrierFree) {
+            route.push(`<p>エレベーターで${destFloor}まで移動します。</p>`);
+          } else if (destBuilding === "8") {
+            addEightBuildingStairs(route, "1階", destFloor);
+          } else {
+            addNineBuildingStairs(route, "1階", destFloor, destination);
+          }
+        }
       } else {
-        // 9号館内の廊下
-        if (["931", "932", "933", "934"].includes(destination)) {
-          addPhoto(route, "3階の廊下を進みます", "9号館3階廊下真っ直ぐ(右手側).jpeg");
-
-        } else if (["941", "942"].includes(destination)) {
-          addPhoto(route, "4階の廊下を進みます", "9号館4階階段(右手側).jpeg");
-
-          if (destination === "942") {
-            addPhoto(route, "942へ進みます", "9号館4階942へ(右手側).jpeg");
+        if (startBuilding === "9" && start === "931" && destination === "934") {
+          route.push("<p>931を出ます。</p>");
+          addPhoto(route, "9号館3階の廊下を真っ直ぐ進みます", "9号館3階廊下真っ直ぐ(左手側).jpeg");
+          addPhoto(route, "934の通路へ進みます", "9号館3階934通路へ.jpeg");
+          addPhoto(route, "934の通路を進みます", "9号館3階934通路行く.jpeg");
+        } else if (startBuilding === "9" && start === "934" && destination === "931") {
+          route.push("<p>934を出ます。</p>");
+          addPhoto(route, "934の通路を進みます", "9号館3階934通路行く.jpeg");
+          addPhoto(route, "931の方向へ進みます", "9号館3階934通路へ.jpeg");
+          addPhoto(route, "廊下を進みます", "9号館3階廊下真っ直ぐ(左手側).jpeg");
+        } else {
+          if (startFloor !== destFloor) {
+            if (isBarrierFree) {
+              route.push(`<p>エレベーターで${destFloor}まで移動します。</p>`);
+            } else if (startBuilding === "8") {
+              addEightBuildingStairs(route, startFloor, destFloor);
+            } else {
+              addNineBuildingStairs(route, startFloor, destFloor, destination);
+            }
           }
 
-        } else if (["952", "953", "954"].includes(destination)) {
-          addPhoto(route, "5階の廊下を進みます", "9号館5階階段から(左手側).jpeg");
+          if (startBuilding === "8") {
+            const directions = {
+              "821": "真っ直ぐ",
+              "831": "右",
+              "832": "左",
+              "851": "真っ直ぐ",
+              "861": "真っ直ぐ",
+              "871": "右",
+              "872": "左"
+            };
 
-        } else if (destination === "901") {
-          addPhoto(route, "地下1階の廊下を進みます", "9号館地下廊下真っ直ぐ.jpeg");
+            let direction = directions[destination];
+
+            if (start.startsWith("841-")) {
+              if (destination === "841-1") {
+                direction = start === "841-1" ? undefined : (start === "841-2" ? "左" : "右");
+              } else if (destination === "841-2") {
+                direction = start === "841-1" ? "右" : (start === "841-3" ? "左" : undefined);
+              } else if (destination === "841-3") {
+                direction = start === "841-1" ? "左" : (start === "841-2" ? "右" : undefined);
+              }
+            } else if (destination === "841-1") {
+              direction = "右";
+            } else if (destination === "841-2") {
+              direction = "真っ直ぐ";
+            } else if (destination === "841-3") {
+              direction = "左";
+            }
+
+            if (direction) {
+              const photo = direction === "右"
+                ? "8号館教室出て右へ.jpeg"
+                : direction === "左"
+                  ? "8号館教室出て左へ.jpeg"
+                  : "8号館教室出て真っ直ぐ.jpeg";
+
+              addPhoto(route, `${destFloor}の廊下を${direction}へ進みます`, photo);
+            }
+          } else {
+            if (["931", "932", "933", "934"].includes(destination)) {
+              addPhoto(route, "3階の廊下を進みます", "9号館3階廊下真っ直ぐ(右手側).jpeg");
+            } else if (destination === "942") {
+              addPhoto(route, "4階の廊下を進みます", "9号館4階階段(右手側).jpeg");
+              addPhoto(route, "942へ進みます", "9号館4階942へ(右手側).jpeg");
+            } else if (["952", "953", "954"].includes(destination)) {
+              addPhoto(route, "5階の廊下を進みます", "9号館5階階段から(左手側).jpeg");
+            } else if (destination === "901") {
+              addPhoto(route, "地下1階の廊下を進みます", "9号館地下廊下真っ直ぐ.jpeg");
+            } else if (startFloor === destFloor) {
+              route.push(`<p>${destFloor}の廊下を進み、${destinationName}へ向かいます。</p>`);
+            }
+          }
         }
       }
-    }
-  }
-route.push("<p><strong>目的地の企画・教室に到着です！</strong></p>"); 
 
-const toiletKey = getToiletKey(start);
-const toilet = s[toiletKey];
+      route.push(`<p><strong>${destinationName}に到着です！</strong></p>`);
 
- let toiletHTML = "";
+      result.innerHTML = `
+        <div class="route-summary">
+          <p>出発：${startName}</p>
+          <p>到着：${destinationName}</p>
+        </div>
+        <div class="route-box">
+          ${route.map((step, index) => `
+            <div class="route-step">
+              <h3>ステップ${index + 1}</h3>
+              ${step}
+            </div>
+          `).join("")}
+        </div>
+        ${makeToiletHTML(start)}
+      `;
 
-if (toilet) {
-  toiletHTML += `<section class="toilet-info"><h3>🚻 最寄りのお手洗い</h3>`;
-
-  const photos = toiletPhotos[toiletKey] || [];
-
-  photos.forEach((photo, index) => {
-    toiletHTML += `<div class="toilet-photo-item">`;
-    toiletHTML += `<img class="route-photo" src="./${photo}" alt="お手洗いの写真">`;
-
-    if (index === 0) {
-      if (toilet.male) {
-        toiletHTML += `<p>🚹 男子トイレ：${toilet.maleLocation || toilet.location || ""}</p>`;
-      }
-
-      if (toilet.female) {
-        toiletHTML += `<p>🚺 女子トイレ：${toilet.femaleLocation || toilet.location || ""}</p>`;
-      }
+      result.style.display = "block";
     }
 
-    if (index === 1 && toilet.multipurpose) {
-      toiletHTML += `<p>♿ 多目的トイレ：${toilet.multipurposeLocation || toilet.location || ""}</p>`;
-    }
-
-    toiletHTML += `</div>`;
-  });
-
-  toiletHTML += `</section>`;
-}
-
-  result.innerHTML =
-  `<div class="route-summary">
-    <p>出発：${startName}</p>
-    <p>到着：${destinationName}</p>
-  </div>
-  <div class="route-steps">
-    ${route.map((step, index) =>
-      `<div class="route-step">
-        <h3>ステップ${index + 1}</h3>
-        ${step}
-      </div>`
-    ).join("")}
-  </div>
-  ${toiletHTML}`;
-  result.style.display = "block";
-}
-</script>
+    document.getElementById("showRouteButton").addEventListener("click", showRoute);
+  </script>
 </body>
 </html>
