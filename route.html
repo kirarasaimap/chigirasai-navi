@@ -79,27 +79,62 @@ body {
 
 select {
   width: 100%;
-  padding: 14px;
-  font-size: 16px;
-  border: 1px solid #b9c9eb;
-  border-radius: 10px;
-  background: #f8f9ff;
+  padding: 16px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border: 1px solid #c7d8ff;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #ffffff, #e9efff);
   color: #17213d;
+  box-shadow:
+    0 0 0 3px rgba(145, 178, 255, 0.12),
+    0 5px 18px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  outline: none;
 }
 
-button {
+select:focus {
+  border-color: #f5d995;
+  box-shadow:
+    0 0 0 3px rgba(245, 217, 149, 0.2),
+    0 0 20px rgba(133, 174, 255, 0.3);
+}
+
+  button {
   width: 100%;
-  padding: 16px;
-  border: 1px solid #f1d49a;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #e7d19b, #b9c9f7 55%, #8ca9e8);
-  color: #111d3a;
-  font-size: 17px;
-  font-weight: bold;
+  padding: 17px 16px;
+  border: 1px solid #ffe8ac;
+  border-radius: 16px;
+  background: linear-gradient(
+    135deg,
+    #dce8ff 0%,
+    #91b5ff 35%,
+    #607fe0 70%,
+    #b8c9ff 100%
+  );
+  color: #101c3b;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
   cursor: pointer;
-  margin-top: 10px;
-  box-shadow: 0 5px 18px rgba(104, 142, 220, 0.25);
-  transition: transform 0.2s, filter 0.2s;
+  margin-top: 12px;
+  box-shadow:
+    0 0 0 2px rgba(255, 235, 184, 0.08),
+    0 0 22px rgba(119, 163, 255, 0.28),
+    0 7px 18px rgba(0, 0, 0, 0.22);
+  transition: transform 0.2s, filter 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+  filter: brightness(1.08);
+  box-shadow:
+    0 0 18px rgba(255, 226, 160, 0.28),
+    0 0 28px rgba(119, 163, 255, 0.4);
+}
+
+button:active {
+  transform: scale(0.98);
 }
 
 button:hover {
