@@ -355,6 +355,76 @@ button {
 .page-title {
   text-shadow: 0 0 16px rgba(159, 190, 255, 0.5);
 }
+
+  /* ページ全体の文字 */
+body {
+  font-size: 17px;
+  line-height: 1.8;
+  letter-spacing: 0.04em;
+}
+
+/* ページタイトル */
+.page-title {
+  font-size: 27px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  text-shadow:
+    0 0 8px rgba(255, 226, 150, 0.45),
+    0 0 20px rgba(150, 180, 255, 0.3);
+}
+
+/* 各ステップの見出し */
+.step-box h2,
+.step-box h3 {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+/* 選択欄 */
+select {
+  font-size: 17px;
+  font-weight: 600;
+  padding: 14px;
+}
+
+/* ボタン */
+button {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  padding: 15px 18px;
+}
+
+/* ルートの説明文 */
+#routeResult {
+  font-size: 17px;
+  line-height: 1.9;
+}
+
+/* ルート内の強調文字 */
+#routeResult strong,
+#routeResult b {
+  font-weight: 900;
+}
+
+/* スマホではタイトルを少し調整 */
+@media (max-width: 480px) {
+  body {
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  .page-title {
+    font-size: 24px;
+  }
+
+  .step-box h2,
+  .step-box h3 {
+    font-size: 19px;
+  }
+}
 </style>
 </head>
 
